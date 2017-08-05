@@ -41,5 +41,29 @@ namespace Gdax.MarketData.Products
 				new GdaxRequest(HttpMethod.Get, $"/products/{productId}/book?level={level}")
 			).ConfigureAwait(false)).Value;
 		}
+
+		public async Task<IEnumerable<HistoricRate>> GetHistoricRatesAsync(String productId, DateTime start, DateTime end, Int32 granularity)
+		{
+			var rates = (await this.client.GetResponseAsync<IEnumerable<Decimal[]>>(
+				new GdaxRequest(HttpMethod.Get, $"/products/{productId}/candles?start={start}&end={end}&granularity={granularity}")
+			).ConfigureAwait(false)).Value;
+			
+			var results = new List<HistoricRate>();
+
+			foreach (var rate in rates)
+			{
+				results.Add(new HistoricRate
+				{
+					Time = rate[0],
+					Low = rate[1],
+					High = rate[2],
+					Open = rate[3],
+					Close = rate[4],
+					Volume = rate[5],
+				});
+			}
+
+			return results;
+		}
 	}
 }

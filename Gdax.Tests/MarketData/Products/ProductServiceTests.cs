@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Gdax.Authentication;
 using Xunit;
@@ -39,6 +40,17 @@ namespace Gdax.MarketData.Products.Tests
 			var book = await client.MarketData.Products.GetOrderBookAsync("BTC-USD");
 
 			book.Should().NotBeNull();
+		}
+
+		[Fact]
+		public async Task GetHistoricRatesAsync_ShouldReturnTheHistoricRates()
+		{
+			var auth = new GdaxAuthenticator("", "", "");
+			var client = new GdaxClient(auth);
+
+			var history = await client.MarketData.Products.GetHistoricRatesAsync("BTC-USD", DateTime.UtcNow.AddMinutes(-10), DateTime.UtcNow, 30);
+
+			history.Should().NotBeNull();
 		}
 	}
 }

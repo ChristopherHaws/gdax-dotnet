@@ -12,5 +12,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
   - `GetProductsAsync`
   - `GetProductTickerAsync`
   - `GetOrderBookAsync`
+  - `GetHistoricRatesAsync`
 
 [Unreleased]: https://github.com/ChristopherHaws/gdax-dotnet/compare/v1.0.0...HEAD
