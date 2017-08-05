@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Gdax.Authentication;
 using Xunit;
 
 namespace Gdax.Tests
@@ -11,8 +10,10 @@ namespace Gdax.Tests
 		[Fact]
 		public async Task GetServerTime_ReturnsTheCurrentTime()
 		{
-			var auth = new GdaxAuthenticator("", "", "");
-			var client = new GdaxClient(auth);
+			var client = new GdaxClient(TestAuthenticators.Unauthorized)
+			{
+				UseSandbox = true
+			};
 
 			var time = await client.GetServerTimeAsync();
 

@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Gdax.Authentication;
+using Gdax.Fills;
 using Gdax.MarketData;
 
 namespace Gdax
@@ -24,18 +25,26 @@ namespace Gdax
 			this.authenticator = Check.NotNull(authenticator, nameof(authenticator));
 			this.serialzer = Check.NotNull(serialzer, nameof(serialzer));
 			this.http = new HttpClient();
+			this.Fills = new FillsService(this);
 			this.MarketData = new MarketDataService(this);
 		}
 
-		public Uri BaseUri { get; } = new Uri(@"https://api.gdax.com");
+		public Boolean UseSandbox { get; set; } = false;
+
+		public Uri BaseUri => this.UseSandbox
+			? new Uri(@"https://api-public.sandbox.gdax.com")
+			: new Uri(@"https://api.gdax.com");
+
+		public IFillsService Fills { get; }
 
 		public IMarketDataService MarketData { get; }
 
 		public async Task<Time> GetServerTimeAsync()
 		{
-			return (await this.GetResponseAsync<Time>(
-				new GdaxRequest(HttpMethod.Get, "/time")
-			).ConfigureAwait(false)).Value;
+			var request = new GdaxRequestBuilder("/time")
+				.Build();
+
+			return (await this.GetResponseAsync<Time>(request).ConfigureAwait(false)).Value;
 		}
 
 		public async Task<GdaxResponse<TResponse>> GetResponseAsync<TResponse>(GdaxRequest request)

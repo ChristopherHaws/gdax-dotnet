@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Gdax.Authentication;
+using Gdax.Tests;
 using Xunit;
 
 namespace Gdax.MarketData.Products.Tests
@@ -11,8 +11,10 @@ namespace Gdax.MarketData.Products.Tests
 		[Fact]
 		public async Task GetProductsAsync_ShouldReturnTheCurrentCurrencies()
 		{
-			var auth = new GdaxAuthenticator("", "", "");
-			var client = new GdaxClient(auth);
+			var client = new GdaxClient(TestAuthenticators.Unauthorized)
+			{
+				UseSandbox = true
+			};
 
 			var products = await client.MarketData.Products.GetProductsAsync();
 
@@ -22,8 +24,10 @@ namespace Gdax.MarketData.Products.Tests
 		[Fact]
 		public async Task GetProductTickerAsync_ShouldReturnTheCurrentCurrencyPrices()
 		{
-			var auth = new GdaxAuthenticator("", "", "");
-			var client = new GdaxClient(auth);
+			var client = new GdaxClient(TestAuthenticators.Unauthorized)
+			{
+				UseSandbox = true
+			};
 
 			var ticker = await client.MarketData.Products.GetProductTickerAsync("BTC-USD");
 
@@ -34,8 +38,10 @@ namespace Gdax.MarketData.Products.Tests
 		[Fact]
 		public async Task GetOrderBookAsync_ShouldReturnTheCurrentOrderBook()
 		{
-			var auth = new GdaxAuthenticator("", "", "");
-			var client = new GdaxClient(auth);
+			var client = new GdaxClient(TestAuthenticators.Unauthorized)
+			{
+				UseSandbox = true
+			};
 
 			var book = await client.MarketData.Products.GetOrderBookAsync("BTC-USD");
 
@@ -45,8 +51,10 @@ namespace Gdax.MarketData.Products.Tests
 		[Fact]
 		public async Task GetHistoricRatesAsync_ShouldReturnTheHistoricRates()
 		{
-			var auth = new GdaxAuthenticator("", "", "");
-			var client = new GdaxClient(auth);
+			var client = new GdaxClient(TestAuthenticators.Unauthorized)
+			{
+				UseSandbox = true
+			};
 
 			var history = await client.MarketData.Products.GetHistoricRatesAsync("BTC-USD", DateTime.UtcNow.AddMinutes(-10), DateTime.UtcNow, 30);
 

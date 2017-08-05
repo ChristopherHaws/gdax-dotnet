@@ -49,6 +49,6 @@ namespace Gdax.MarketData.Products
 		/// <param name="end">End time in ISO 8601.</param>
 		/// <param name="granularity">Desired timeslice in seconds.</param>
 		/// <returns></returns>
-		Task<IEnumerable<HistoricRate>> GetHistoricRatesAsync(String productId, DateTime start, DateTime end, Int32 granularity);
+		Task<IEnumerable<HistoricRate>> GetHistoricRatesAsync(String productId, DateTime? start = null, DateTime? end = null, Int32? granularity = null);
 	}
 }

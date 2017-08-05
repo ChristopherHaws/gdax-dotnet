@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Gdax.MarketData.Products
@@ -16,16 +15,20 @@ namespace Gdax.MarketData.Products
 
 		public async Task<IEnumerable<Product>> GetProductsAsync()
 		{
-			return (await this.client.GetResponseAsync<IEnumerable<Product>>(
-				new GdaxRequest(HttpMethod.Get, "/products")
-			).ConfigureAwait(false)).Value;
+			var request = new GdaxRequestBuilder("/products")
+				.Build();
+
+			return (await this.client.GetResponseAsync<IEnumerable<Product>>(request).ConfigureAwait(false)).Value;
 		}
 
 		public async Task<ProductTicker> GetProductTickerAsync(String productId)
 		{
-			var response = await this.client.GetResponseAsync<ProductTicker>(
-				new GdaxRequest(HttpMethod.Get, $"/products/{productId}/ticker")
-			).ConfigureAwait(false);
+			Check.NotNullOrWhiteSpace(productId, nameof(productId));
+
+			var request = new GdaxRequestBuilder($"/products/{productId}/ticker")
+				.Build();
+
+			var response = await this.client.GetResponseAsync<ProductTicker>(request).ConfigureAwait(false);
 
 			if (response.Value != null)
 			{
@@ -37,16 +40,26 @@ namespace Gdax.MarketData.Products
 
 		public async Task<OrderBook> GetOrderBookAsync(String productId, Int32 level = 1)
 		{
-			return (await this.client.GetResponseAsync<OrderBook>(
-				new GdaxRequest(HttpMethod.Get, $"/products/{productId}/book?level={level}")
-			).ConfigureAwait(false)).Value;
+			Check.NotNullOrWhiteSpace(productId, nameof(productId));
+
+			var request = new GdaxRequestBuilder($"/products/{productId}/book")
+				.AddParameterIfNotNull("level", level.ToString())
+				.Build();
+
+			return (await this.client.GetResponseAsync<OrderBook>(request).ConfigureAwait(false)).Value;
 		}
 
-		public async Task<IEnumerable<HistoricRate>> GetHistoricRatesAsync(String productId, DateTime start, DateTime end, Int32 granularity)
+		public async Task<IEnumerable<HistoricRate>> GetHistoricRatesAsync(String productId, DateTime? start = null, DateTime? end = null, Int32? granularity = null)
 		{
-			var rates = (await this.client.GetResponseAsync<IEnumerable<Decimal[]>>(
-				new GdaxRequest(HttpMethod.Get, $"/products/{productId}/candles?start={start}&end={end}&granularity={granularity}")
-			).ConfigureAwait(false)).Value;
+			Check.NotNullOrWhiteSpace(productId, nameof(productId));
+
+			var request = new GdaxRequestBuilder($"/products/{productId}/candles")
+				.AddParameterIfNotNull("start", start?.ToString("o"))
+				.AddParameterIfNotNull("end", end?.ToString("o"))
+				.AddParameterIfNotNull("granularity", granularity?.ToString())
+				.Build();
+
+			var rates = (await this.client.GetResponseAsync<IEnumerable<Decimal[]>>(request).ConfigureAwait(false)).Value;
 			
 			var results = new List<HistoricRate>();
 
