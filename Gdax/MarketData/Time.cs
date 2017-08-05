@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gdax.Models
+namespace Gdax.MarketData
 {
 	public class Time
 	{

@@ -1,6 +1,6 @@
 ﻿using Gdax.MarketData.Products;
 
-namespace Gdax.MerketData
+namespace Gdax.MarketData
 {
 	public interface IMarketDataService
 	{

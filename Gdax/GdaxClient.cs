@@ -4,8 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Gdax.Authentication;
-using Gdax.MerketData;
-using Gdax.Models;
+using Gdax.MarketData;
 
 namespace Gdax
 {
