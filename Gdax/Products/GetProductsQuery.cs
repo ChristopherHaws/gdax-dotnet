@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Gdax
+namespace Gdax.Products
 {
 	public static class GetProductsQuery
 	{

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Gdax.CommonModels;
 using Newtonsoft.Json;
 
-namespace Gdax
+namespace Gdax.Fills
 {
 	public static class ListFillsQuery
 	{

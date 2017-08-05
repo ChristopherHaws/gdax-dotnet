@@ -4,7 +4,7 @@ using FluentAssertions;
 using Gdax.CommonModels;
 using Xunit;
 
-namespace Gdax.Queries
+namespace Gdax.Fills
 {
 	public class ListFillsQueryTests
 	{

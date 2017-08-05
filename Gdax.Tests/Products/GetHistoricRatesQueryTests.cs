@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
-namespace Gdax.Queries
+namespace Gdax.Products
 {
 	public class GetHistoricRatesQueryTests
 	{
