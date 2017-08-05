@@ -63,5 +63,25 @@ namespace Gdax
 
 			return value;
 		}
+
+		public static Guid NotEmpty(Guid value, String paramName)
+		{
+			if (value == Guid.Empty)
+			{
+				throw new ArgumentNullException(paramName);
+			}
+
+			return value;
+		}
+
+		public static Guid NotEmpty(Guid value, String paramName, String message)
+		{
+			if (value == Guid.Empty)
+			{
+				throw new ArgumentNullException(paramName, message);
+			}
+
+			return value;
+		}
 	}
 }

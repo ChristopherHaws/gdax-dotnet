@@ -33,8 +33,7 @@ namespace Gdax
 			var request = new GdaxRequestBuilder("/fills")
 				.AddParameterIfNotNull("order_id", orderId)
 				.AddParameterIfNotNull("product_id", productId)
-				.SetPageLimit(paging?.Limit)
-				.SetCursor(paging?.CursorType ?? default(CursorType), paging?.Value)
+				.SetPageOptions(paging)
 				.Build();
 
 			var response = await client.GetResponseAsync<IEnumerable<Fill>>(request).ConfigureAwait(false);

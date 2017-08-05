@@ -46,6 +46,14 @@ namespace Gdax
 			return this;
 		}
 
+		public GdaxRequestBuilder SetPageOptions(PaginationOptions paging)
+		{
+			this.SetPageLimit(paging?.Limit);
+			this.SetCursor(paging?.CursorType ?? default(CursorType), paging?.Value);
+
+			return this;
+		}
+
 		public GdaxRequestBuilder SetPageLimit(Int32? limit)
 		{
 			this.limit = limit;
