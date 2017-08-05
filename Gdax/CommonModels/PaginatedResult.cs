@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Gdax.Fills
+namespace Gdax.CommonModels
 {
 	public class PaginatedResult<T>
 	{

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gdax.Fills
+namespace Gdax.CommonModels
 {
 	public class PaginationOptions
 	{

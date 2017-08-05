@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Gdax.Fills;
+using Gdax.CommonModels;
 using Xunit;
 
-namespace Gdax.Tests.Fills
+namespace Gdax.Queries
 {
-	public class FillsServiceTests
+	public class ListFillsQueryTests
 	{
 		[Fact]
 		public async Task ListFills_ShouldListTheFills()
@@ -16,12 +16,11 @@ namespace Gdax.Tests.Fills
 				UseSandbox = true
 			};
 
-			var fills = await client.Fills.ListFills();
+			var fills = await client.ListFills();
 
 			fills.Should().NotBeNull();
 		}
-
-
+		
 		[Fact]
 		public async Task ListFills_ShouldAllowNextAndPreviousPage()
 		{
@@ -30,13 +29,13 @@ namespace Gdax.Tests.Fills
 				UseSandbox = true
 			};
 
-			var fills = await client.Fills.ListFills(paging: new PaginationOptions
+			var fills = await client.ListFills(paging: new PaginationOptions
 			{
 				Limit = 1
 			});
 			
-			var fillsPage2 = await client.Fills.ListFills(paging: fills.NextPage());
-			var fillsPage1 = await client.Fills.ListFills(paging: fillsPage2.PreviousPage());
+			var fillsPage2 = await client.ListFills(paging: fills.NextPage());
+			var fillsPage1 = await client.ListFills(paging: fillsPage2.PreviousPage());
 
 			fills.Should().NotBeNull();
 			fills.Results.Should().HaveCount(1);

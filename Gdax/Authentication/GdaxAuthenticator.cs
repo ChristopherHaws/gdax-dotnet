@@ -33,7 +33,7 @@ namespace Gdax.Authentication
 			return HashString(prehash, data);
 		}
 
-		private String HashString(string value, byte[] secret)
+		private String HashString(String value, Byte[] secret)
 		{
 			var bytes = Encoding.UTF8.GetBytes(value);
 

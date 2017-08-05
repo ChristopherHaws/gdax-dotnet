@@ -2,7 +2,7 @@ using System;
 using System.Net.Http;
 using Xunit;
 
-namespace Gdax.Authentication.Tests
+namespace Gdax.Authentication
 {
 	public class GdaxAuthenticatorTests
 	{

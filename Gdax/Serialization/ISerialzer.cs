@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gdax
+namespace Gdax.Serialization
 {
 	public interface ISerialzer
 	{

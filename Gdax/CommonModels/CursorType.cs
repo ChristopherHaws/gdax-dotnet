@@ -1,4 +1,4 @@
-﻿namespace Gdax
+﻿namespace Gdax.CommonModels
 {
 	public enum CursorType
 	{

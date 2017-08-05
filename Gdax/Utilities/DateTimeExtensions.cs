@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gdax
+﻿namespace System
 {
 	internal static class DateTimeExtensions
 	{

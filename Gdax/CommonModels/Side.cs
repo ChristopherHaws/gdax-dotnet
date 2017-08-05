@@ -1,4 +1,4 @@
-﻿namespace Gdax.Fills
+﻿namespace Gdax.CommonModels
 {
 	public enum Side
 	{

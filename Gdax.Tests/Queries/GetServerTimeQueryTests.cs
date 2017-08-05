@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
-namespace Gdax.Tests
+namespace Gdax.Queries
 {
-	public class GdaxClientTests
+	public class GetServerTimeQueryTests
 	{
 		[Fact]
-		public async Task GetServerTime_ReturnsTheCurrentTime()
+		public async Task GetServerTimeAsync_ReturnsTheCurrentTime()
 		{
 			var client = new GdaxClient(TestAuthenticators.Unauthorized)
 			{

@@ -1,9 +1,15 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Gdax.Fills
+namespace Gdax.CommonModels
 {
-	internal class LiquidityTypeConverter : JsonConverter
+	public enum LiquidityType
+	{
+		Maker,
+		Taker
+	}
+
+	public class LiquidityTypeConverter : JsonConverter
 	{
 		public override bool CanConvert(Type objectType)
 		{
@@ -16,7 +22,7 @@ namespace Gdax.Fills
 			{
 				throw new Exception("Invalid token. Expected string");
 			}
-			
+
 			var value = reader.Value as String;
 
 			switch (value)

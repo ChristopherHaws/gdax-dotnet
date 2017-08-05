@@ -1,5 +1,6 @@
 ﻿using Gdax.Authentication;
-namespace Gdax.Tests
+
+namespace Gdax
 {
 	public static class TestAuthenticators
 	{

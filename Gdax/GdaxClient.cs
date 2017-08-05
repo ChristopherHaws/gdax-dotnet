@@ -4,12 +4,14 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Gdax.Authentication;
-using Gdax.Fills;
-using Gdax.MarketData;
+using Gdax.Serialization;
 
 namespace Gdax
 {
-	public class GdaxClient
+	/// <summary>
+	/// The GdaxClient is thread safe and can be used as a singleton for the lifetime of your application.
+	/// </summary>
+	public class GdaxClient : IDisposable
 	{
 		private readonly IAuthenticator authenticator;
 		private readonly ISerialzer serialzer;
@@ -25,8 +27,11 @@ namespace Gdax
 			this.authenticator = Check.NotNull(authenticator, nameof(authenticator));
 			this.serialzer = Check.NotNull(serialzer, nameof(serialzer));
 			this.http = new HttpClient();
-			this.Fills = new FillsService(this);
-			this.MarketData = new MarketDataService(this);
+		}
+		
+		public void Dispose()
+		{
+			this.http?.Dispose();
 		}
 
 		public Boolean UseSandbox { get; set; } = false;
@@ -34,18 +39,6 @@ namespace Gdax
 		public Uri BaseUri => this.UseSandbox
 			? new Uri(@"https://api-public.sandbox.gdax.com")
 			: new Uri(@"https://api.gdax.com");
-
-		public IFillsService Fills { get; }
-
-		public IMarketDataService MarketData { get; }
-
-		public async Task<Time> GetServerTimeAsync()
-		{
-			var request = new GdaxRequestBuilder("/time")
-				.Build();
-
-			return (await this.GetResponseAsync<Time>(request).ConfigureAwait(false)).Value;
-		}
 
 		public async Task<GdaxResponse<TResponse>> GetResponseAsync<TResponse>(GdaxRequest request)
 		{
