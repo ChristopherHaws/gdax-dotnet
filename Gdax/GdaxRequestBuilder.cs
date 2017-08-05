@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 
@@ -11,6 +10,9 @@ namespace Gdax
 		private HttpMethod method;
 		private String relativePath;
 		private Dictionary<String, String> queryParameters;
+		private Int32? limit;
+		private CursorType cursorType;
+		private String cursorValue;
 
 		public GdaxRequestBuilder()
 			: this("/", HttpMethod.Get)
@@ -43,27 +45,54 @@ namespace Gdax
 			return this;
 		}
 
+		public GdaxRequestBuilder SetPageLimit(Int32? limit)
+		{
+			this.limit = limit;
+			return this;
+		}
+
+		public GdaxRequestBuilder SetCursor(CursorType type, String value)
+		{
+			this.cursorType = type;
+			this.cursorValue = value;
+			return this;
+		}
+
 		public GdaxRequest Build()
 		{
 			var uriBuilder = new StringBuilder(this.relativePath);
+			var isFirstParameter = true;
 
-			if (this.queryParameters.Any())
+			void AppendParameter(String key, String value)
 			{
-				uriBuilder.Append("?");
-			}
-
-			var isFirst = true;
-			foreach (var queryParameter in this.queryParameters)
-			{
-				if (!isFirst)
+				if (isFirstParameter)
+				{
+					uriBuilder.Append("?");
+					isFirstParameter = false;
+				}
+				else
 				{
 					uriBuilder.Append("&");
-					isFirst = false;
 				}
 
-				uriBuilder.Append(queryParameter.Key);
+				uriBuilder.Append(key);
 				uriBuilder.Append("=");
-				uriBuilder.Append(queryParameter.Value);
+				uriBuilder.Append(value);
+			}
+
+			foreach (var queryParameter in this.queryParameters)
+			{
+				AppendParameter(queryParameter.Key, queryParameter.Value);
+			}
+
+			if (this.limit.HasValue)
+			{
+				AppendParameter("limit", this.limit.Value.ToString());
+			}
+
+			if (!String.IsNullOrWhiteSpace(this.cursorValue))
+			{
+				AppendParameter(this.cursorType.ToString().ToLower(), this.cursorValue);
 			}
 
 			var uri = uriBuilder.ToString();

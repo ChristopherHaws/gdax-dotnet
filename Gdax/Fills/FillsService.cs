@@ -12,15 +12,19 @@ namespace Gdax.Fills
 		{
 			this.client = client;
 		}
-
-		public async Task<IEnumerable<Fill>> ListFills(String orderId = null, String productId = null)
+				
+		public async Task<PaginatedResult<Fill>> ListFills(String orderId = null, String productId = null, PaginationOptions paging = null)
 		{
 			var request = new GdaxRequestBuilder("/fills")
 				.AddParameterIfNotNull("order_id", orderId)
 				.AddParameterIfNotNull("product_id", productId)
+				.SetPageLimit(paging?.Limit)
+				.SetCursor(paging?.CursorType ?? default(CursorType), paging?.Value)
 				.Build();
 
-			return (await this.client.GetResponseAsync<IEnumerable<Fill>>(request).ConfigureAwait(false)).Value;
+			var response = await this.client.GetResponseAsync<IEnumerable<Fill>>(request).ConfigureAwait(false);
+
+			return new PaginatedResult<Fill>(response);
 		}
 	}
 }

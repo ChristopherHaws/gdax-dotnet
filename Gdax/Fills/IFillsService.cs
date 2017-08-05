@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Gdax.Fills
@@ -21,7 +20,8 @@ namespace Gdax.Fills
 		/// </remarks>
 		/// <param name="orderId">Limit list of fills to this order.</param>
 		/// <param name="productId">Limit list of fills to this product.</param>
+		/// <param name="paging">The paging options.</param>
 		/// <returns></returns>
-		Task<IEnumerable<Fill>> ListFills(String orderId = null, String productId = null);
+		Task<PaginatedResult<Fill>> ListFills(String orderId = null, String productId = null, PaginationOptions paging = null);
 	}
 }
