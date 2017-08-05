@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Gdax.Authentication;
+using Gdax.MerketData;
 using Gdax.Models;
 
 namespace Gdax
@@ -19,14 +20,17 @@ namespace Gdax
 		{
 		}
 
-		public Uri BaseUri { get; } = new Uri(@"https://api.gdax.com");
-
 		public GdaxClient(IAuthenticator authenticator, ISerialzer serialzer)
 		{
-			this.authenticator = authenticator;
-			this.serialzer = serialzer;
+			this.authenticator = Check.NotNull(authenticator, nameof(authenticator));
+			this.serialzer = Check.NotNull(serialzer, nameof(serialzer));
 			this.http = new HttpClient();
+			this.MarketData = new MarketDataService(this);
 		}
+
+		public Uri BaseUri { get; } = new Uri(@"https://api.gdax.com");
+
+		public IMarketDataService MarketData { get; }
 
 		public async Task<Time> GetServerTimeAsync()
 		{

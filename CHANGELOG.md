@@ -6,7 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [Unreleased]
 ### Added
 - `GdaxAuthenticator` for authenticating to GDAX via API keys
-- The following Api's have been added:
-  - `GdaxClient.GetServerTimeAsync`
+- `GdaxClient` with the following methods:
+  - `GetServerTimeAsync`
+- `ProductService` with the following methods:
+  - `GetProductsAsync`
+  - `GetProductTickerAsync`
+  - `GetOrderBookAsync`
 
 [Unreleased]: https://github.com/ChristopherHaws/gdax-dotnet/compare/v1.0.0...HEAD
