@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Gdax
 {
+	[DebuggerStepThrough]
+	//[ExcludeFromCodeCoverage]
 	internal static class Check
 	{
 		public static T NotNull<T>(T value, String paramName)

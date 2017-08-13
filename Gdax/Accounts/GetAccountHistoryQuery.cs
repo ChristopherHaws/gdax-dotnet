@@ -17,9 +17,9 @@ namespace Gdax.Accounts
 				.SetPageOptions(paging)
 				.Build();
 
-			var response = await client.GetResponseAsync<IEnumerable<Ledger>>(request).ConfigureAwait(false);
+			var response = await client.GetResponseAsync<IList<Ledger>>(request).ConfigureAwait(false);
 
-			return new PaginatedResult<Ledger>(response);
+			return new PaginatedResult<Ledger>(response, paging);
 		}
 
 		public class Ledger

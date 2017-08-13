@@ -31,7 +31,7 @@ namespace Gdax.Serialization
 
 				if (error != null)
 				{
-					throw new GdaxException(error.Message, ex);
+					throw new GdaxException(error.Message);
 				}
 				else
 				{
