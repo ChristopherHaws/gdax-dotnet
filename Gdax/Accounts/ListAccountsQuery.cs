@@ -7,13 +7,13 @@ namespace Gdax.Accounts
 {
 	public static class ListAccountsQuery
 	{
-		public static async Task<IEnumerable<Account>> ListAccountsAsync(this GdaxClient client)
+		public static async Task<IList<Account>> ListAccountsAsync(this GdaxClient client)
 		{
 			Check.NotNull(client, nameof(client));
 
 			var request = new GdaxRequestBuilder("/accounts").Build();
 
-			var response = await client.GetResponseAsync<IEnumerable<Account>>(request).ConfigureAwait(false);
+			var response = await client.GetResponseAsync<IList<Account>>(request).ConfigureAwait(false);
 
 			return response.Value;
 		}

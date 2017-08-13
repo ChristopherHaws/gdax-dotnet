@@ -12,14 +12,14 @@ namespace Gdax.Products
 		/// Get a list of available currency pairs for trading.
 		/// </summary>
 		/// <returns></returns>
-		public static async Task<IEnumerable<Product>> GetProductsAsync(this GdaxClient client)
+		public static async Task<IList<Product>> GetProductsAsync(this GdaxClient client)
 		{
 			Check.NotNull(client, nameof(client));
 
 			var request = new GdaxRequestBuilder("/products")
 				.Build();
 
-			return (await client.GetResponseAsync<IEnumerable<Product>>(request).ConfigureAwait(false)).Value;
+			return (await client.GetResponseAsync<IList<Product>>(request).ConfigureAwait(false)).Value;
 		}
 
 		[DebuggerDisplay("{Id}")]

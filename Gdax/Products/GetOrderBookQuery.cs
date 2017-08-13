@@ -31,10 +31,10 @@ namespace Gdax.Products
 			public Int64 Sequence { get; set; }
 
 			[JsonProperty("bids")]
-			public IEnumerable<String[]> Bids { get; set; }
+			public IList<String[]> Bids { get; set; }
 
 			[JsonProperty("asks")]
-			public IEnumerable<String[]> Asks { get; set; }
+			public IList<String[]> Asks { get; set; }
 		}
 
 		/// <summary>

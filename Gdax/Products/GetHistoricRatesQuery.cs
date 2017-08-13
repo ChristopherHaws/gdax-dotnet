@@ -26,7 +26,7 @@ namespace Gdax.Products
 		/// <param name="end">End time in ISO 8601.</param>
 		/// <param name="granularity">Desired timeslice in seconds.</param>
 		/// <returns></returns>
-		public static async Task<IEnumerable<HistoricRate>> GetHistoricRatesAsync(this GdaxClient client, String productId, DateTime? start = null, DateTime? end = null, Int32? granularity = null)
+		public static async Task<IList<HistoricRate>> GetHistoricRatesAsync(this GdaxClient client, String productId, DateTime? start = null, DateTime? end = null, Int32? granularity = null)
 		{
 			Check.NotNull(client, nameof(client));
 			Check.NotNullOrWhiteSpace(productId, nameof(productId));
@@ -37,7 +37,7 @@ namespace Gdax.Products
 				.AddParameterIfNotNull("granularity", granularity?.ToString())
 				.Build();
 
-			var rates = (await client.GetResponseAsync<IEnumerable<Decimal[]>>(request).ConfigureAwait(false)).Value;
+			var rates = (await client.GetResponseAsync<IList<Decimal[]>>(request).ConfigureAwait(false)).Value;
 
 			var results = new List<HistoricRate>();
 
