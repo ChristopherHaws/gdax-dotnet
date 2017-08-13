@@ -3,6 +3,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Authors>Christopher.Haws</Authors>
+    <Company>Christopher.Haws</Company>
+    <Description>A .NET implementation for the GDAX API for exchanging cryptocurrency.</Description>
+    <PackageLicenseUrl>https://github.com/ChristopherHaws/gdax-dotnet/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/ChristopherHaws/gdax-dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ChristopherHaws/gdax-dotnet.git</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>GDAX Crypto Currency CoinBase BitCoin Ethereum LiteCoin</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
