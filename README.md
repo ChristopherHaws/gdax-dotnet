@@ -1,4 +1,4 @@
-# Inventory Service
+# GDAX DotNet API
 A .NET Standard library for GDAX.
 
 ## Contributing
