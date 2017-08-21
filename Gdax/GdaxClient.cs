@@ -15,6 +15,11 @@ namespace Gdax
 		private readonly ISerialzer serialzer;
 		private readonly HttpClient http;
 
+		public GdaxClient(String apiKey, String passphrase, String secret)
+			: this(new GdaxAuthenticator(apiKey, passphrase, secret), new JsonSerializer())
+		{
+		}
+
 		public GdaxClient(IAuthenticator authenticator)
 			: this(authenticator, new JsonSerializer())
 		{
