@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Gdax.Authentication
+namespace Gdax
 {
 	public class GdaxAuthenticator : IAuthenticator
 	{

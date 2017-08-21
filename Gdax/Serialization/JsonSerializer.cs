@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Gdax.Serialization
+namespace Gdax
 {
 	internal class JsonSerializer : ISerialzer
 	{

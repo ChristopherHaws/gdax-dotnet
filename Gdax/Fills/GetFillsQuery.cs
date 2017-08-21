@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Gdax.CommonModels;
 using Newtonsoft.Json;
 
-namespace Gdax.Fills
+namespace Gdax
 {
 	public static class ListFillsQuery
 	{
@@ -26,7 +25,7 @@ namespace Gdax.Fills
 		/// <param name="productId">Limit list of fills to this product.</param>
 		/// <param name="paging">The paging options.</param>
 		/// <returns></returns>
-		public static async Task<PaginatedResult<Fill>> ListFillsAsync(this GdaxClient client, String orderId = null, String productId = null, PaginationOptions paging = null)
+		public static async Task<PaginatedResult<Fill>> GetFillsAsync(this GdaxClient client, String orderId = null, String productId = null, PaginationOptions paging = null)
 		{
 			Check.NotNull(client, nameof(client));
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Gdax.CommonModels
+namespace Gdax
 {
 	public enum LiquidityType
 	{

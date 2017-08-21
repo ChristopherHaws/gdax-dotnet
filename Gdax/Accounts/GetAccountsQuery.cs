@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Gdax.Accounts
+namespace Gdax
 {
 	public static class ListAccountsQuery
 	{
-		public static async Task<IList<Account>> ListAccountsAsync(this GdaxClient client)
+		public static async Task<IList<Account>> GetAccountsAsync(this GdaxClient client)
 		{
 			Check.NotNull(client, nameof(client));
 

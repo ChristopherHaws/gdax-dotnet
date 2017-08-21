@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Gdax.Products
+namespace Gdax
 {
 	public static class GetProductTickerQuery
 	{

@@ -14,7 +14,7 @@ namespace Gdax.Accounts
 				UseSandbox = true
 			};
 
-			var accounts = await client.ListAccountsAsync();
+			var accounts = await client.GetAccountsAsync();
 			
 			accounts.Should().NotBeNullOrEmpty();
 		}

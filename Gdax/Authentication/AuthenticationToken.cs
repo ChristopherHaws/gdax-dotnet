@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gdax.Authentication
+namespace Gdax
 {
 	public class AuthenticationToken
 	{

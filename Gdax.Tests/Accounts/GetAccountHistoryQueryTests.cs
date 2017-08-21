@@ -15,7 +15,7 @@ namespace Gdax.Accounts
 				UseSandbox = true
 			};
 
-			var accounts = await client.ListAccountsAsync();
+			var accounts = await client.GetAccountsAsync();
 			var ledger = await client.GetAccountHistoryAsync(accounts.First().Id);
 
 			ledger.Results.Should().NotBeNull();

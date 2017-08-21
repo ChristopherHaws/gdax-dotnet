@@ -1,4 +1,4 @@
-﻿namespace Gdax.Authentication
+﻿namespace Gdax
 {
 	public interface IAuthenticator
 	{

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Gdax.CommonModels;
 using Xunit;
 
 namespace Gdax.Fills
@@ -16,7 +15,7 @@ namespace Gdax.Fills
 				UseSandbox = true
 			};
 
-			var fills = await client.ListFillsAsync();
+			var fills = await client.GetFillsAsync();
 
 			fills.Should().NotBeNull();
 		}
@@ -29,13 +28,13 @@ namespace Gdax.Fills
 				UseSandbox = true
 			};
 
-			var fills = await client.ListFillsAsync(paging: new PaginationOptions
+			var fills = await client.GetFillsAsync(paging: new PaginationOptions
 			{
 				Limit = 1
 			});
 			
-			var fillsPage2 = await client.ListFillsAsync(paging: fills.NextPage());
-			var fillsPage1 = await client.ListFillsAsync(paging: fillsPage2.PreviousPage());
+			var fillsPage2 = await client.GetFillsAsync(paging: fills.NextPage());
+			var fillsPage1 = await client.GetFillsAsync(paging: fillsPage2.PreviousPage());
 
 			fills.Should().NotBeNull();
 			fills.Results.Should().HaveCount(1);

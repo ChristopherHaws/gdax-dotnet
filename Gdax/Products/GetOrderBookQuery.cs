@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Gdax.Products
+namespace Gdax
 {
 	/// <summary>
 	/// Get a list of open orders for a product. The amount of detail shown can be customized with the level parameter.

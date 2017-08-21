@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Gdax.Products
+namespace Gdax
 {
 	public static class GetHistoricRatesQuery
 	{

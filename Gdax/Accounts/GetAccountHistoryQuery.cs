@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Gdax.CommonModels;
 using Newtonsoft.Json;
 
-namespace Gdax.Accounts
+namespace Gdax
 {
 	public static class GetAccountHistoryQuery
 	{

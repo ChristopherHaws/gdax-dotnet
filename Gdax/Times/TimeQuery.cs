@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Gdax.Times
+namespace Gdax
 {
 	public static class TimeQuery
 	{
