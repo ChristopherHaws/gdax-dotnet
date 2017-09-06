@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Gdax
 {
-	internal class GdaxRequestBuilder
+	public class GdaxRequestBuilder
 	{
 		private HttpMethod method;
 		private String relativePath;

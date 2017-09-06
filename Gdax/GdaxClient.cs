@@ -47,7 +47,7 @@ namespace Gdax
 		{
 			var httpResponse = await this.GetResponseAsync(request).ConfigureAwait(false);
 			var contentBody = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-
+			
 			return new GdaxResponse<TResponse>(
 				httpResponse.Headers.ToArray(),
 				httpResponse.StatusCode,
