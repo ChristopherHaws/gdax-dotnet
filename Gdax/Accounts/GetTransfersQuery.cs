@@ -56,8 +56,8 @@ namespace Gdax
 
 		public class TransferDetails
 		{
-			[JsonProperty("coinbase_address_id")]
-			public Guid CoinbaseAddressId { get; set; }
+			[JsonProperty("coinbase_account_id")]
+			public Guid CoinbaseAccountId { get; set; }
 
 			[JsonProperty("coinbase_transaction_id")]
 			public String CoinbaseTransactionId { get; set; }
