@@ -35,7 +35,7 @@ namespace Gdax
 				}
 				else
 				{
-					throw new GdaxException(ex);
+					throw new GdaxException($"Could not deserialize '{value}'.", ex);
 				}
 			}
 		}
