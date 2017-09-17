@@ -8,14 +8,14 @@ namespace Gdax.Times
 	public class GetServerTimeQueryTests
 	{
 		[Fact]
-		public async Task GetServerTimeAsync_ReturnsTheCurrentTime()
+		public async Task GetServerTime_ReturnsTheCurrentTime()
 		{
 			var client = new GdaxClient(TestAuthenticators.Unauthorized)
 			{
 				UseSandbox = true
 			};
 
-			var time = await client.GetServerTimeAsync();
+			var time = await client.GetServerTime();
 
 			time.Iso.ShouldBe(DateTime.UtcNow, TimeSpan.FromSeconds(30));
 		}

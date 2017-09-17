@@ -7,14 +7,14 @@ namespace Gdax.Products
 	public class GetProductsQueryTests
 	{
 		[Fact]
-		public async Task GetProductsAsync_ShouldReturnTheCurrentCurrencies()
+		public async Task GetProducts_ShouldReturnTheCurrentCurrencies()
 		{
 			var client = new GdaxClient(TestAuthenticators.Unauthorized)
 			{
 				UseSandbox = true
 			};
 
-			var products = await client.GetProductsAsync();
+			var products = await client.GetProducts();
 
 			products.ShouldNotBeEmpty();
 		}

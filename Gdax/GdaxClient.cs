@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gdax
 {
-	/// <summary>
-	/// The GdaxClient is thread safe and can be used as a singleton for the lifetime of your application.
-	/// </summary>
-	public class GdaxClient : IDisposable
+	public partial class GdaxClient : IGdaxClient, IDisposable
 	{
 		private readonly GdaxCredentials credentials;
 		private readonly ISerialzer serialzer;
@@ -46,10 +43,10 @@ namespace Gdax
 		public Uri BaseUri => this.UseSandbox
 			? new Uri(@"https://api-public.sandbox.gdax.com")
 			: new Uri(@"https://api.gdax.com");
-
-		public async Task<GdaxResponse<TResponse>> GetResponseAsync<TResponse>(GdaxRequest request)
+		
+		public async Task<GdaxResponse<TResponse>> GetResponse<TResponse>(GdaxRequest request)
 		{
-			var response = await this.GetResponseAsync(request).ConfigureAwait(false);
+			var response = await this.GetResponse(request).ConfigureAwait(false);
 			var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
 			return new GdaxResponse<TResponse>(
@@ -60,7 +57,7 @@ namespace Gdax
 			);
 		}
 
-		public async Task<HttpResponseMessage> GetResponseAsync(GdaxRequest request)
+		public async Task<HttpResponseMessage> GetResponse(GdaxRequest request)
 		{
 			var httpRequest = this.BuildRequestMessagee(request);
 

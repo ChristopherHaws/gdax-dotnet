@@ -1,4 +1,4 @@
-﻿namespace Gdax
+﻿namespace Gdax.Models
 {
 	public enum Side
 	{

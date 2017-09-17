@@ -16,26 +16,26 @@ namespace Gdax.Fills
 				UseSandbox = true
 			};
 
-			var fills = await client.GetFillsAsync();
+			var fills = await client.GetFills();
 
 			fills.ShouldNotBeNull();
 		}
 		
 		[Fact]
-		public async Task GetFills_ShouldAllowNextAndPreviousPage()
+		public async Task GetFills_ShouldAllowOlderAndNewerPage()
 		{
 			var client = new GdaxClient(TestAuthenticators.FullAccess)
 			{
 				UseSandbox = true
 			};
 
-			var fills = await client.GetFillsAsync(paging: new PagingOptions<Int32?>
+			var fills = await client.GetFills(paging: new PagingOptions<Int32?>
 			{
 				Limit = 1
 			});
 			
-			var fillsPage2 = await client.GetFillsAsync(paging: fills.OlderPage());
-			var fillsPage1 = await client.GetFillsAsync(paging: fillsPage2.NewerPage());
+			var fillsPage2 = await client.GetFills(paging: fills.OlderPage());
+			var fillsPage1 = await client.GetFills(paging: fillsPage2.NewerPage());
 
 			fills.ShouldNotBeNull();
 			fills.Results.ShouldHaveSingleItem();

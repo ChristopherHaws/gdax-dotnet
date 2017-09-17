@@ -8,15 +8,15 @@ namespace Gdax.Accounts
 	public class GetAccountHistoryQueryTests
 	{
 		[Fact]
-		public async Task GetAccountHistoryAsync_ShouldReturnTheAccounts()
+		public async Task GetAccountHistory_ShouldReturnTheAccounts()
 		{
 			var client = new GdaxClient(TestAuthenticators.FullAccess)
 			{
 				UseSandbox = true
 			};
 
-			var accounts = await client.GetAccountsAsync();
-			var ledger = await client.GetAccountHistoryAsync(accounts.First().Id);
+			var accounts = await client.GetAccounts();
+			var ledger = await client.GetAccountHistory(accounts.First().Id);
 
 			ledger.Results.ShouldNotBeNull();
 		}
