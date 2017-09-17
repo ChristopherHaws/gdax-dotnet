@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace Gdax.Products
@@ -16,8 +16,8 @@ namespace Gdax.Products
 
 			var ticker = await client.GetProductTickerAsync("BTC-USD");
 
-			ticker.Should().NotBeNull();
-			ticker.Price.Should().BeGreaterThan(0);
+			ticker.ShouldNotBeNull();
+			ticker.Price.ShouldBeGreaterThan(0);
 		}
 	}
 }

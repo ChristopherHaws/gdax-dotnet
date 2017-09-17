@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace Gdax.Products
@@ -17,7 +17,7 @@ namespace Gdax.Products
 
 			var history = await client.GetHistoricRatesAsync("BTC-USD", DateTime.UtcNow.AddMinutes(-10), DateTime.UtcNow, 30);
 
-			history.Should().NotBeNull();
+			history.ShouldNotBeNull();
 		}
 	}
 }

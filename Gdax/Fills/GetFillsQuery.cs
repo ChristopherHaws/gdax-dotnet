@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Gdax
 {
-	public static class ListFillsQuery
+	public static class GetFillsQuery
 	{
 		/// <summary>
 		///		<para>

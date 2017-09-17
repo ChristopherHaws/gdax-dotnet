@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace Gdax.Fills
 {
-	public class ListFillsQueryTests
+	public class GetFillsQueryTests
 	{
 		[Fact]
-		public async Task ListFills_ShouldListTheFills()
+		public async Task GetFills_ShouldListTheFills()
 		{
 			var client = new GdaxClient(TestAuthenticators.FullAccess)
 			{
@@ -18,11 +18,11 @@ namespace Gdax.Fills
 
 			var fills = await client.GetFillsAsync();
 
-			fills.Should().NotBeNull();
+			fills.ShouldNotBeNull();
 		}
 		
 		[Fact]
-		public async Task ListFills_ShouldAllowNextAndPreviousPage()
+		public async Task GetFills_ShouldAllowNextAndPreviousPage()
 		{
 			var client = new GdaxClient(TestAuthenticators.FullAccess)
 			{
@@ -37,16 +37,16 @@ namespace Gdax.Fills
 			var fillsPage2 = await client.GetFillsAsync(paging: fills.OlderPage());
 			var fillsPage1 = await client.GetFillsAsync(paging: fillsPage2.NewerPage());
 
-			fills.Should().NotBeNull();
-			fills.Results.Should().HaveCount(1);
+			fills.ShouldNotBeNull();
+			fills.Results.ShouldHaveSingleItem();
 
-			fillsPage2.Should().NotBeNull();
-			fillsPage2.Results.Should().HaveCount(1);
-			fillsPage2.Results.Should().NotContain(x => x.OrderId == fills.Results.First().OrderId);
+			fillsPage2.ShouldNotBeNull();
+			fillsPage2.Results.ShouldHaveSingleItem();
+			fillsPage2.Results.ShouldNotContain(x => x.OrderId == fills.Results.First().OrderId);
 
-			fillsPage1.Should().NotBeNull();
-			fillsPage1.Results.Should().HaveCount(1);
-			fillsPage1.Results.Should().Contain(x => x.OrderId == fills.Results.First().OrderId);
+			fillsPage1.ShouldNotBeNull();
+			fillsPage1.Results.ShouldHaveSingleItem();
+			fillsPage1.Results.ShouldContain(x => x.OrderId == fills.Results.First().OrderId);
 		}
 	}
 }

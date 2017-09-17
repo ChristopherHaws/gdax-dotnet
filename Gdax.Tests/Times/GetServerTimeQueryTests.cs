@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace Gdax.Times
@@ -17,7 +17,7 @@ namespace Gdax.Times
 
 			var time = await client.GetServerTimeAsync();
 
-			time.Iso.Should().BeCloseTo(DateTime.UtcNow, 30 * 1000);
+			time.Iso.ShouldBe(DateTime.UtcNow, TimeSpan.FromSeconds(30));
 		}
 	}
 }

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Gdax
 {
-	public static class ListAccountsQuery
+	public static class GetAccountsQuery
 	{
 		public static async Task<IList<Account>> GetAccountsAsync(this GdaxClient client)
 		{

@@ -11,29 +11,31 @@ namespace Gdax
 	/// </summary>
 	public class GdaxClient : IDisposable
 	{
-		private readonly IAuthenticator authenticator;
+		private readonly GdaxCredentials credentials;
 		private readonly ISerialzer serialzer;
 		private readonly HttpClient http;
-		private readonly String applicationName;
 
 		public GdaxClient(String apiKey, String passphrase, String secret, String applicationName = "gdax-dotnet")
-			: this(new GdaxAuthenticator(apiKey, passphrase, secret), new JsonSerializer(), applicationName)
+			: this(new GdaxCredentials(apiKey, passphrase, secret, applicationName), new JsonSerializer())
 		{
 		}
 
-		public GdaxClient(IAuthenticator authenticator, String applicationName = "gdax-dotnet")
-			: this(authenticator, new JsonSerializer(), applicationName)
+		public GdaxClient(GdaxCredentials credentials)
+			: this(credentials, new JsonSerializer())
 		{
 		}
 
-		public GdaxClient(IAuthenticator authenticator, ISerialzer serialzer, String applicationName = "gdax-dotnet")
+		public GdaxClient(GdaxCredentials credentials, ISerialzer serialzer)
 		{
-			this.authenticator = Check.NotNull(authenticator, nameof(authenticator));
+			this.credentials = Check.NotNull(credentials, nameof(credentials));
 			this.serialzer = Check.NotNull(serialzer, nameof(serialzer));
-			this.applicationName = Check.NotNullOrWhiteSpace(applicationName, nameof(applicationName));
-			this.http = new HttpClient();
+
+			this.http = new HttpClient(new GdaxAuthenticationHandler(credentials)
+			{
+				InnerHandler = new HttpClientHandler()
+			});
 		}
-		
+
 		public void Dispose()
 		{
 			this.http?.Dispose();
@@ -47,21 +49,20 @@ namespace Gdax
 
 		public async Task<GdaxResponse<TResponse>> GetResponseAsync<TResponse>(GdaxRequest request)
 		{
-			var httpResponse = await this.GetResponseAsync(request).ConfigureAwait(false);
-			var contentBody = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-			
+			var response = await this.GetResponseAsync(request).ConfigureAwait(false);
+			var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
 			return new GdaxResponse<TResponse>(
-				httpResponse.Headers.ToArray(),
-				httpResponse.StatusCode,
-				contentBody,
-				this.serialzer.Deserialize<TResponse>(contentBody)
+				response.Headers.ToArray(),
+				response.StatusCode,
+				body,
+				this.serialzer.Deserialize<TResponse>(body)
 			);
 		}
 
 		public async Task<HttpResponseMessage> GetResponseAsync(GdaxRequest request)
 		{
 			var httpRequest = this.BuildRequestMessagee(request);
-			httpRequest.Headers.Add("User-Agent", @"gdax-dotnet");
 
 			return await this.http.SendAsync(httpRequest).ConfigureAwait(false);
 		}
@@ -73,24 +74,13 @@ namespace Gdax
 				RequestUri = new Uri(this.BaseUri, request.RequestUrl),
 				Method = request.HttpMethod
 			};
-			
+
 			if (request.RequestBody != null)
 			{
 				requestMessage.Content = new StringContent(request.RequestBody, Encoding.UTF8, "application/json");
 			}
-
-			var token = this.authenticator.GetAuthenticationToken(request);
-			SetHttpRequestHeaders(requestMessage, token);
-
+			
 			return requestMessage;
-		}
-
-		private static void SetHttpRequestHeaders(HttpRequestMessage requestMessage, AuthenticationToken token)
-		{
-			requestMessage.Headers.Add("CB-ACCESS-KEY", token.ApiKey);
-			requestMessage.Headers.Add("CB-ACCESS-SIGN", token.Signature);
-			requestMessage.Headers.Add("CB-ACCESS-TIMESTAMP", token.Timestamp);
-			requestMessage.Headers.Add("CB-ACCESS-PASSPHRASE", token.Passphrase);
 		}
 	}
 }

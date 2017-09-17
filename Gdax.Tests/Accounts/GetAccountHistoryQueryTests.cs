@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace Gdax.Accounts
@@ -18,7 +18,7 @@ namespace Gdax.Accounts
 			var accounts = await client.GetAccountsAsync();
 			var ledger = await client.GetAccountHistoryAsync(accounts.First().Id);
 
-			ledger.Results.Should().NotBeNull();
+			ledger.Results.ShouldNotBeNull();
 		}
 	}
 }

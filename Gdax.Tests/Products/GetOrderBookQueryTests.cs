@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace Gdax.Products
@@ -16,7 +16,7 @@ namespace Gdax.Products
 
 			var book = await client.GetOrderBookAsync("BTC-USD");
 
-			book.Should().NotBeNull();
+			book.ShouldNotBeNull();
 		}
 	}
 }

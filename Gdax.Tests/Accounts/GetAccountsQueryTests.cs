@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 
 namespace Gdax.Accounts
 {
-	public class ListAccountsQueryTests
+	public class GetAccountsQueryTests
 	{
 		[Fact]
-		public async Task ListAccountsAsync_ShouldReturnTheAccounts()
+		public async Task GetAccountsAsync_ShouldReturnTheAccounts()
 		{
 			var client = new GdaxClient(TestAuthenticators.FullAccess)
 			{
@@ -15,8 +15,8 @@ namespace Gdax.Accounts
 			};
 
 			var accounts = await client.GetAccountsAsync();
-			
-			accounts.Should().NotBeNullOrEmpty();
+
+			accounts.ShouldNotBeNull();
 		}
 	}
 }
