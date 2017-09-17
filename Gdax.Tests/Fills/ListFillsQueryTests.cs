@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
@@ -28,7 +29,7 @@ namespace Gdax.Fills
 				UseSandbox = true
 			};
 
-			var fills = await client.GetFillsAsync(paging: new PaginationOptions
+			var fills = await client.GetFillsAsync(paging: new PagingOptions<Int32?>
 			{
 				Limit = 1
 			});

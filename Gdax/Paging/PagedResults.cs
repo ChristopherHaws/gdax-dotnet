@@ -4,20 +4,22 @@ using System.Linq;
 
 namespace Gdax
 {
-	public class PaginatedResult<T>
+	public class PagedResults<T, TCursor>
 	{
 		private readonly GdaxResponse<IList<T>> response;
-		private readonly PaginationOptions paging;
+		private readonly ICursorEncoder<TCursor> encoder;
+		private readonly PagingOptions<TCursor> paging;
 
-		public PaginatedResult(GdaxResponse<IList<T>> response, PaginationOptions paging = null)
+		public PagedResults(GdaxResponse<IList<T>> response, ICursorEncoder<TCursor> encoder, PagingOptions<TCursor> paging = null)
 		{
 			this.response = response;
+			this.encoder = encoder;
 			this.paging = paging;
 		}
 
 		public IList<T> Results => this.response.Value;
 		
-		public PaginationOptions PreviousPage()
+		public PagingOptions<TCursor> PreviousPage()
 		{
 			var before = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-BEFORE", StringComparison.OrdinalIgnoreCase));
 			if (before.Value == null || before.Value.Count() != 1)
@@ -25,15 +27,14 @@ namespace Gdax
 				throw new GdaxException("Cannot determine previous page.");
 			}
 
-			return new PaginationOptions
+			return new PagingOptions<TCursor>
 			{
-				CursorType = CursorType.Before,
 				Limit = this.paging?.Limit,
-				Value = before.Value.First()
+				Before = this.encoder.Decode(before.Value.First())
 			};
 		}
 
-		public PaginationOptions NextPage()
+		public PagingOptions<TCursor> NextPage()
 		{
 			var after = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-AFTER", StringComparison.OrdinalIgnoreCase));
 			if (after.Value == null || after.Value.Count() != 1)
@@ -41,11 +42,10 @@ namespace Gdax
 				throw new GdaxException("Cannot determine next page.");
 			}
 
-			return new PaginationOptions
+			return new PagingOptions<TCursor>
 			{
-				CursorType = CursorType.After,
 				Limit = this.paging?.Limit,
-				Value = after.Value.First()
+				After = this.encoder.Decode(after.Value.First())
 			};
 		}
 
@@ -62,7 +62,8 @@ namespace Gdax
 				return true;
 			}
 
-			if (!before.Value.Any(x => x.Equals(this.paging?.Value, StringComparison.OrdinalIgnoreCase)))
+			var value = this.paging == null ? default(TCursor) : this.paging.Before;
+			if (!before.Value.Any(x => x.Equals(this.encoder.Encode(value), StringComparison.OrdinalIgnoreCase)))
 			{
 				return true;
 			}
@@ -83,7 +84,8 @@ namespace Gdax
 				return true;
 			}
 
-			if (after.Value.Any(x => x.Equals(this.paging?.Value, StringComparison.OrdinalIgnoreCase)))
+			var value = this.paging == null ? default(TCursor) : this.paging.After;
+			if (after.Value.Any(x => x.Equals(this.encoder.Encode(value), StringComparison.OrdinalIgnoreCase)))
 			{
 				return true;
 			}

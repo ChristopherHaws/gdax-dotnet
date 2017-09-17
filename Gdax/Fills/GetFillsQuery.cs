@@ -25,19 +25,19 @@ namespace Gdax
 		/// <param name="productId">Limit list of fills to this product.</param>
 		/// <param name="paging">The paging options.</param>
 		/// <returns></returns>
-		public static async Task<PaginatedResult<Fill>> GetFillsAsync(this GdaxClient client, String orderId = null, String productId = null, PaginationOptions paging = null)
+		public static async Task<PagedResults<Fill, Int32?>> GetFillsAsync(this GdaxClient client, String orderId = null, String productId = null, PagingOptions<Int32?> paging = null)
 		{
 			Check.NotNull(client, nameof(client));
 
 			var request = new GdaxRequestBuilder("/fills")
 				.AddParameterIfNotNull("order_id", orderId)
 				.AddParameterIfNotNull("product_id", productId)
-				.SetPageOptions(paging)
+				.AddPagingOptions(paging, CursorEncoders.Int32)
 				.Build();
 
 			var response = await client.GetResponseAsync<IList<Fill>>(request).ConfigureAwait(false);
 
-			return new PaginatedResult<Fill>(response, paging);
+			return new PagedResults<Fill, Int32?>(response, CursorEncoders.Int32, paging);
 		}
 
 		[DebuggerDisplay("{TradeId} - {OrderId}")]

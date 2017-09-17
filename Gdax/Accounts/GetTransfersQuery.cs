@@ -7,18 +7,18 @@ namespace Gdax
 {
 	public static class GetTransfersQuery
 	{
-		public static async Task<PaginatedResult<Transfer>> GetTransfersAsync(this GdaxClient client, Guid accountId, PaginationOptions paging = null)
+		public static async Task<PagedResults<Transfer, DateTimeOffset?>> GetTransfersAsync(this GdaxClient client, Guid accountId, PagingOptions<DateTimeOffset?> paging = null)
 		{
 			Check.NotNull(client, nameof(client));
 			Check.NotEmpty(accountId, nameof(accountId));
 
 			var request = new GdaxRequestBuilder($"/accounts/{accountId}/transfers")
-				.SetPageOptions(paging)
+				.AddPagingOptions(paging, CursorEncoders.DateTimeOffset)
 				.Build();
 
 			var response = await client.GetResponseAsync<IList<Transfer>>(request).ConfigureAwait(false);
 
-			return new PaginatedResult<Transfer>(response, paging);
+			return new PagedResults<Transfer, DateTimeOffset?>(response, CursorEncoders.DateTimeOffset, paging);
 		}
 
 		public class Transfer

@@ -14,21 +14,23 @@ namespace Gdax
 		private readonly IAuthenticator authenticator;
 		private readonly ISerialzer serialzer;
 		private readonly HttpClient http;
+		private readonly String applicationName;
 
-		public GdaxClient(String apiKey, String passphrase, String secret)
-			: this(new GdaxAuthenticator(apiKey, passphrase, secret), new JsonSerializer())
+		public GdaxClient(String apiKey, String passphrase, String secret, String applicationName = "gdax-dotnet")
+			: this(new GdaxAuthenticator(apiKey, passphrase, secret), new JsonSerializer(), applicationName)
 		{
 		}
 
-		public GdaxClient(IAuthenticator authenticator)
-			: this(authenticator, new JsonSerializer())
+		public GdaxClient(IAuthenticator authenticator, String applicationName = "gdax-dotnet")
+			: this(authenticator, new JsonSerializer(), applicationName)
 		{
 		}
 
-		public GdaxClient(IAuthenticator authenticator, ISerialzer serialzer)
+		public GdaxClient(IAuthenticator authenticator, ISerialzer serialzer, String applicationName = "gdax-dotnet")
 		{
 			this.authenticator = Check.NotNull(authenticator, nameof(authenticator));
 			this.serialzer = Check.NotNull(serialzer, nameof(serialzer));
+			this.applicationName = Check.NotNullOrWhiteSpace(applicationName, nameof(applicationName));
 			this.http = new HttpClient();
 		}
 		
@@ -71,7 +73,7 @@ namespace Gdax
 				RequestUri = new Uri(this.BaseUri, request.RequestUrl),
 				Method = request.HttpMethod
 			};
-
+			
 			if (request.RequestBody != null)
 			{
 				requestMessage.Content = new StringContent(request.RequestBody, Encoding.UTF8, "application/json");

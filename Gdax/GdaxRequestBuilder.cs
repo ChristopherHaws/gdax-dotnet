@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 
@@ -10,9 +11,6 @@ namespace Gdax
 		private HttpMethod method;
 		private String relativePath;
 		private Dictionary<String, String> queryParameters;
-		private Int32? limit;
-		private CursorType cursorType;
-		private String cursorValue;
 
 		public GdaxRequestBuilder()
 			: this("/", HttpMethod.Get)
@@ -45,27 +43,25 @@ namespace Gdax
 			return this;
 		}
 
-		public GdaxRequestBuilder SetPageOptions(PaginationOptions paging)
+		public GdaxRequestBuilder AddPagingOptions<TCursor>(PagingOptions<TCursor> paging, ICursorEncoder<TCursor> encoder)
 		{
-			this.SetPageLimit(paging?.Limit);
-			this.SetCursor(paging?.CursorType ?? default(CursorType), paging?.Value);
+			if (paging == null)
+			{
+				return this;
+			}
+
+			this.AddParameterIfNotNull("limit", paging.Limit?.ToString());
+			this.AddParameterIfNotNull("before", encoder.Encode(paging.Before));
+			this.AddParameterIfNotNull("after", encoder.Encode(paging.After));
 
 			return this;
 		}
 
-		public GdaxRequestBuilder SetPageLimit(Int32? limit)
+		protected virtual IDictionary<String, String> GetAdditionalParameters()
 		{
-			this.limit = limit;
-			return this;
+			return null;
 		}
-
-		public GdaxRequestBuilder SetCursor(CursorType type, String value)
-		{
-			this.cursorType = type;
-			this.cursorValue = value;
-			return this;
-		}
-
+		
 		public GdaxRequest Build()
 		{
 			var uriBuilder = new StringBuilder(this.relativePath);
@@ -83,29 +79,28 @@ namespace Gdax
 					uriBuilder.Append("&");
 				}
 
-				uriBuilder.Append(key);
+				uriBuilder.Append(WebUtility.UrlEncode(key));
 				uriBuilder.Append("=");
-				uriBuilder.Append(value);
+				uriBuilder.Append(WebUtility.UrlEncode(value));
 			}
 
-			foreach (var queryParameter in this.queryParameters)
+			void AppendParameters(IDictionary<String, String> parameters)
 			{
-				AppendParameter(queryParameter.Key, queryParameter.Value);
+				foreach (var parameter in parameters)
+				{
+					AppendParameter(parameter.Key, parameter.Value);
+				}
 			}
 
-			if (this.limit.HasValue)
+			AppendParameters(this.queryParameters);
+
+			var additionalParameters = this.GetAdditionalParameters();
+			if (additionalParameters != null)
 			{
-				AppendParameter("limit", this.limit.Value.ToString());
+				AppendParameters(additionalParameters);
 			}
-
-			if (!String.IsNullOrWhiteSpace(this.cursorValue))
-			{
-				AppendParameter(this.cursorType.ToString().ToLower(), this.cursorValue);
-			}
-
-			var uri = uriBuilder.ToString();
-
-			return new GdaxRequest(this.method, uri);
+			
+			return new GdaxRequest(this.method, uriBuilder.ToString());
 		}
 	}
 }

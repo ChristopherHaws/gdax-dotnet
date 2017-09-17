@@ -5,22 +5,23 @@ using Newtonsoft.Json;
 
 namespace Gdax
 {
+
 	public static class GetAccountHistoryQuery
 	{
-		public static async Task<PaginatedResult<Ledger>> GetAccountHistoryAsync(this GdaxClient client, Guid accountId, PaginationOptions paging = null)
+		public static async Task<PagedResults<Ledger, Int32?>> GetAccountHistoryAsync(this GdaxClient client, Guid accountId, PagingOptions<Int32?> paging = null)
 		{
 			Check.NotNull(client, nameof(client));
 			Check.NotEmpty(accountId, nameof(accountId));
 
 			var request = new GdaxRequestBuilder($"/accounts/{accountId}/ledger")
-				.SetPageOptions(paging)
+				.AddPagingOptions(paging, CursorEncoders.Int32)
 				.Build();
 
 			var response = await client.GetResponseAsync<IList<Ledger>>(request).ConfigureAwait(false);
 
-			return new PaginatedResult<Ledger>(response, paging);
+			return new PagedResults<Ledger, Int32?>(response, CursorEncoders.Int32, paging);
 		}
-
+		
 		public class Ledger
 		{
 			[JsonProperty("id")]
