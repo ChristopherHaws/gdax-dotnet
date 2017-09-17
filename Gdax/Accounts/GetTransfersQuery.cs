@@ -27,7 +27,7 @@ namespace Gdax
 			public Guid Id { get; set; }
 
 			[JsonProperty("type")]
-			public LedgerEntryType Type { get; set; }
+			public TransferType Type { get; set; }
 
 			[JsonProperty("created_at")]
 			public DateTime CreatedAt { get; set; }
@@ -48,7 +48,7 @@ namespace Gdax
 			public TransferDetails Details { get; set; }
 		}
 
-		public enum LedgerEntryType
+		public enum TransferType
 		{
 			Withdraw,
 			Deposit,
