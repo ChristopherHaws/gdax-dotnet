@@ -19,40 +19,40 @@ namespace Gdax
 
 		public IList<T> Results => this.response.Value;
 		
-		public PagingOptions<TCursor> PreviousPage()
+		public PagingOptions<TCursor> NewerPage()
 		{
 			var before = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-BEFORE", StringComparison.OrdinalIgnoreCase));
 			if (before.Value == null || before.Value.Count() != 1)
 			{
-				throw new GdaxException("Cannot determine previous page.");
+				throw new GdaxException("Cannot determine newer page.");
 			}
 
 			return new PagingOptions<TCursor>
 			{
 				Limit = this.paging?.Limit,
-				Before = this.encoder.Decode(before.Value.First())
+				NewerThan = this.encoder.Decode(before.Value.First())
 			};
 		}
 
-		public PagingOptions<TCursor> NextPage()
+		public PagingOptions<TCursor> OlderPage()
 		{
 			var after = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-AFTER", StringComparison.OrdinalIgnoreCase));
 			if (after.Value == null || after.Value.Count() != 1)
 			{
-				throw new GdaxException("Cannot determine next page.");
+				throw new GdaxException("Cannot determine older page.");
 			}
 
 			return new PagingOptions<TCursor>
 			{
 				Limit = this.paging?.Limit,
-				After = this.encoder.Decode(after.Value.First())
+				OlderThan = this.encoder.Decode(after.Value.First())
 			};
 		}
 
-		public Boolean HasPreviousPage()
+		public Boolean HasNewerPage()
 		{
-			var before = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-BEFORE", StringComparison.OrdinalIgnoreCase));
-			if (before.Value == null || before.Value.Count() != 1)
+			var before = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-BEFORE", StringComparison.OrdinalIgnoreCase)).Value;
+			if (before == null || before.Count() != 1)
 			{
 				return false;
 			}
@@ -61,20 +61,14 @@ namespace Gdax
 			{
 				return true;
 			}
-
-			var value = this.paging == null ? default(TCursor) : this.paging.Before;
-			if (!before.Value.Any(x => x.Equals(this.encoder.Encode(value), StringComparison.OrdinalIgnoreCase)))
-			{
-				return true;
-			}
-
+			
 			return false;
 		}
 
-		public Boolean HasNextPage()
+		public Boolean HasOlderPage()
 		{
-			var after = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-AFTER", StringComparison.OrdinalIgnoreCase));
-			if (after.Value == null || after.Value.Count() != 1)
+			var after = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-AFTER", StringComparison.OrdinalIgnoreCase)).Value;
+			if (after == null || after.Count() != 1)
 			{
 				return false;
 			}
@@ -83,14 +77,22 @@ namespace Gdax
 			{
 				return true;
 			}
-
-			var value = this.paging == null ? default(TCursor) : this.paging.After;
-			if (after.Value.Any(x => x.Equals(this.encoder.Encode(value), StringComparison.OrdinalIgnoreCase)))
-			{
-				return true;
-			}
-
+			
 			return false;
+		}
+
+		private Object ToDump()
+		{
+			return new
+			{
+				HasOlderPage = this.HasOlderPage(),
+				HasNewerPage = this.HasNewerPage(),
+				OlderPageOptions = this.HasOlderPage() ? this.OlderPage() : null,
+				NewerPageOptions = this.HasNewerPage() ? this.NewerPage() : null,
+				OlderHeader = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-AFTER", StringComparison.OrdinalIgnoreCase)).Value?.FirstOrDefault(),
+				NewerHeader = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-BEFORE", StringComparison.OrdinalIgnoreCase)).Value?.FirstOrDefault(),
+				Results = this.Results,
+			};
 		}
 	}
 }

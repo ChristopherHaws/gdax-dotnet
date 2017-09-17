@@ -51,8 +51,8 @@ namespace Gdax
 			}
 
 			this.AddParameterIfNotNull("limit", paging.Limit?.ToString());
-			this.AddParameterIfNotNull("before", encoder.Encode(paging.Before));
-			this.AddParameterIfNotNull("after", encoder.Encode(paging.After));
+			this.AddParameterIfNotNull("before", encoder.Encode(paging.NewerThan));
+			this.AddParameterIfNotNull("after", encoder.Encode(paging.OlderThan));
 
 			return this;
 		}
