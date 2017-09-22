@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Gdax.Models
 {
-	public class PaymentMethods
+	public class PaymentMethod
 	{
 		[JsonProperty("allow_withdraw")]
 		public bool AllowWithdraw { get; set; }

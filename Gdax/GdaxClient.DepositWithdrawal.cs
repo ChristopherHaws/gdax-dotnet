@@ -9,18 +9,15 @@ namespace Gdax
 {
 	public partial class GdaxClient
 	{
-		private HttpMethod POST;
-
 		/// <summary>
-		/// Get all payment information on account - Only need ID for payments
+		/// Get all payment information on account - Only need ID for payments and to check limits and Bank name etc
 		/// </summary>
 		/// <returns></returns>
-		public async Task<PaymentMethods> GetPaymentMethods()
+		public async Task<IList<PaymentMethod>>GetPaymentMethods()
 		{
 			var request = new GdaxRequestBuilder("/payment-methods").Build();
 
-			return (await this.GetResponse<PaymentMethods>(request).ConfigureAwait(false)).Value;
-
+			return (await this.GetResponse<IList<PaymentMethod>>(request).ConfigureAwait(false)).Value;
 		}
 
 		/// <summary>
@@ -30,12 +27,9 @@ namespace Gdax
 		/// <param name="currency"></param>
 		/// <param name="paymentID"></param>
 		/// <returns></returns>
-		public async Task<DepositWithdrawal> GetWithdrawalToBank(double amount, string currency, Guid paymentID)
+		public async Task<DepositWithdrawal> GetWithdrawalToBank(double amount, string currency, string paymentID)
 		{
-			var request = new GdaxRequestBuilder("/withdrawals/payment-method", this.POST)
-				.AddParameterIfNotNull("amount", ((double)amount).ToString())
-				.AddParameterIfNotNull("currency", currency)
-				.AddParameterIfNotNull("payment_method_id", ((Guid)paymentID).ToString())
+			var request = new GdaxRequestBuilder("/withdrawals/payment-method", HttpMethod.Post)
 				.Build();
 
 			return (await this.GetResponse<DepositWithdrawal>(request).ConfigureAwait(false)).Value;
@@ -50,10 +44,7 @@ namespace Gdax
 		/// <returns></returns>
 		public async Task<DepositWithdrawal> GetWithdrawalToWallet(double amount, string currency, string crypto_address)
 		{
-			var request = new GdaxRequestBuilder("/withdrawals/crypto", this.POST)
-				.AddParameterIfNotNull("amount", ((double)amount).ToString())
-				.AddParameterIfNotNull("currency", currency)
-				.AddParameterIfNotNull("crypto_address", crypto_address)
+			var request = new GdaxRequestBuilder("/withdrawals/crypto", HttpMethod.Post)
 				.Build();
 
 			return (await this.GetResponse<DepositWithdrawal>(request).ConfigureAwait(false)).Value;

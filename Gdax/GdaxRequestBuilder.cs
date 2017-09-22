@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using Gdax.Models;
+using Newtonsoft.Json;
 
 namespace Gdax
 {
 	public class GdaxRequestBuilder
 	{
-		private HttpMethod method;
+		public HttpMethod method;
 		private String relativePath;
 		private Dictionary<String, String> queryParameters;
+		private OrderRequest bodyParameters;
+		private GdaxRequest request;
 
-		public GdaxRequestBuilder()
-			: this("/", HttpMethod.Get)
+		public GdaxRequestBuilder(): this("/", HttpMethod.Get)
 		{
 		}
 
-		public GdaxRequestBuilder(String relativePath)
-			: this(relativePath, HttpMethod.Get)
+		public GdaxRequestBuilder(String relativePath) : this(relativePath, HttpMethod.Get)
 		{
 		}
 
@@ -27,6 +30,7 @@ namespace Gdax
 			this.method = Check.NotNull(method, nameof(method));
 			this.relativePath = Check.NotNull(relativePath, nameof(relativePath));
 			this.queryParameters = new Dictionary<String, String>();
+			this.bodyParameters = new OrderRequest();
 		}
 
 		public GdaxRequestBuilder AddParameterIfNotNull(String key, String value)
@@ -41,6 +45,26 @@ namespace Gdax
 			this.queryParameters.Add(key, value);
 
 			return this;
+		}
+
+		public GdaxRequestBuilder AddBody(Side side, String productId, OrderType orderType, Decimal size)
+		{
+			var model = new OrderRequest()
+			{
+				Side = side,
+				ProductId = productId,
+				Type = orderType,
+				Size = size
+			};
+
+			this.bodyParameters = model;
+			Debug.WriteLine(this.bodyParameters);
+
+			this.request.RequestBody = JsonConvert.SerializeObject(this.bodyParameters);
+			Debug.WriteLine(this.request.RequestBody);
+
+			return this;
+
 		}
 
 		public GdaxRequestBuilder AddPagingOptions<TCursor>(PagingOptions<TCursor> paging, ICursorEncoder<TCursor> encoder)
@@ -99,7 +123,9 @@ namespace Gdax
 			{
 				AppendParameters(additionalParameters);
 			}
-			
+
+			var request = new GdaxRequest(this.method, uriBuilder.ToString());
+
 			return new GdaxRequest(this.method, uriBuilder.ToString());
 		}
 	}

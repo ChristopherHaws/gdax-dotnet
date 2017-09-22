@@ -8,25 +8,25 @@ namespace Gdax.Models
 	{
 
 		[JsonProperty("id")]
-		public string Id { get; set; }
+		public String Id { get; set; }
 
 		[JsonProperty("price")]
-		public string Price { get; set; }
+		public Decimal Price { get; set; }
 
 		[JsonProperty("size")]
-		public string Size { get; set; }
+		public Double Size { get; set; }
 
 		[JsonProperty("product_id")]
-		public string ProductId { get; set; }
+		public String ProductId { get; set; }
 
 		[JsonProperty("side")]
-		public string Side { get; set; }
+		public Side Side { get; set; }
 
 		[JsonProperty("stp")]
 		public string Stp { get; set; }
 
 		[JsonProperty("type")]
-		public string Type { get; set; }
+		public OrderType Type { get; set; }
 
 		[JsonProperty("time_in_force")]
 		public string TimeInForce { get; set; }
@@ -41,7 +41,7 @@ namespace Gdax.Models
 		public string FillFees { get; set; }
 
 		[JsonProperty("filled_size")]
-		public string FilledSize { get; set; }
+		public double FilledSize { get; set; }
 
 		[JsonProperty("executed_value")]
 		public string ExecutedValue { get; set; }

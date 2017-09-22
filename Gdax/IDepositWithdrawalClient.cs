@@ -6,7 +6,7 @@ namespace Gdax
 {
 	public interface IDepositWithdrawalClient
 	{
-		Task<PaymentMethods> GetPaymentMethods();
+		Task<PaymentMethod> GetPaymentMethods();
 
 		Task<DepositWithdrawal> GetWithdrawalToBank(double amount, string currency, Guid paymentID);
 

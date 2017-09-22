@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Gdax.Models;
 
@@ -59,6 +60,8 @@ namespace Gdax
 		public async Task<ProductTicker> GetProductTicker(String productId)
 		{
 			Check.NotNullOrWhiteSpace(productId, nameof(productId));
+
+			Debug.WriteLine("Product ID from Products " + productId);
 
 			var request = new GdaxRequestBuilder($"/products/{productId}/ticker")
 				.Build();
