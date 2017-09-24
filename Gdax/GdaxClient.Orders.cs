@@ -11,14 +11,21 @@ namespace Gdax
 	public partial class GdaxClient
     {
 
-		public async Task<Order> SubmitMarketOrderBySize(Side side, String productId, Decimal size, OrderType orderType = OrderType.Market)
-		{
+		public async Task<Order> SubmitMarketOrderBySize(Side side, String productId, Decimal size, OrderType orderType)
+		{			
+			var model = new OrderRequest()
+			{
+				Side = side,
+				ProductId = productId,
+				Type = orderType,
+				Size = size
+			};
+
 			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post)
 				.AddBody(side, productId, orderType, size)
 				.Build();
 
-			//TODO: There should be an AddBody method on the request builder that does this.
-			//request.RequestBody = JsonConvert.SerializeObject(model);
+			request.RequestBody = JsonConvert.SerializeObject(model);
 
 			return (await this.GetResponse<Order>(request).ConfigureAwait(false)).Value;
 		}

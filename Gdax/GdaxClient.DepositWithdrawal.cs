@@ -27,9 +27,16 @@ namespace Gdax
 		/// <param name="currency"></param>
 		/// <param name="paymentID"></param>
 		/// <returns></returns>
-		public async Task<DepositWithdrawal> GetWithdrawalToBank(double amount, string currency, string paymentID)
+		public async Task<DepositWithdrawal> GetWithdrawalToBank(Decimal amount, String currency, string paymentID)
 		{
-			var request = new GdaxRequestBuilder("/withdrawals/payment-method", HttpMethod.Post)
+			var model = new DepositWithdrawalRequest()
+			{
+				Amount = amount,
+				Currency = currency,
+				Payment_Method_Id = paymentID
+			};
+
+			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post)
 				.Build();
 
 			return (await this.GetResponse<DepositWithdrawal>(request).ConfigureAwait(false)).Value;

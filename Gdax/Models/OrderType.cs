@@ -2,9 +2,9 @@
 {
 		public enum OrderType
 		{
-			Limit,
-			Market,
-			Stop
+			limit,
+			market,
+			stop
 		}
 	}
 

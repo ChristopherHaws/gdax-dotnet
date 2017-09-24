@@ -58,10 +58,8 @@ namespace Gdax
 			};
 
 			this.bodyParameters = model;
-			Debug.WriteLine(this.bodyParameters);
 
-			this.request.RequestBody = JsonConvert.SerializeObject(this.bodyParameters);
-			Debug.WriteLine(this.request.RequestBody);
+			//this.request.RequestBody = JsonConvert.SerializeObject(this.bodyParameters);
 
 			return this;
 
