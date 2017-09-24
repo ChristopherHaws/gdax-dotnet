@@ -11,18 +11,48 @@ namespace Gdax
 	public partial class GdaxClient
     {
 
-		public async Task<Order> SubmitMarketOrderBySize(Side side, String productId, Decimal size, OrderType orderType)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="side"></param>
+		/// <param name="productId"></param>
+		/// <param name="size"> Size in BTC / ETH etc </param>
+		/// <param name="funds"> Optional - Amount in fiat currency </param>
+		/// <param name="orderType"></param>
+		/// <returns></returns>
+		public async Task<Order> SubmitMarketOrder(Side side, String productId, Decimal size, Decimal? funds = null, OrderType orderType = OrderType.market)
 		{			
 			var model = new OrderRequest()
 			{
 				Side = side,
 				ProductId = productId,
 				Type = orderType,
-				Size = size
+				Size = size,
+				Funds = funds
 			};
 
 			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post)
-				.AddBody(side, productId, orderType, size)
+				.Build();
+
+			request.RequestBody = JsonConvert.SerializeObject(model);
+
+			return (await this.GetResponse<Order>(request).ConfigureAwait(false)).Value;
+		}
+
+		// Submit Limit or stop order
+		public async Task<Order> SubmitLimitOrder(Side side, String productId, Decimal size, Decimal price, OrderType orderType, Decimal? funds = null)
+		{
+			var model = new OrderRequest()
+			{
+				Side = side,
+				ProductId = productId,
+				Type = orderType,
+				Size = size,
+				Price = price,
+				Funds = funds
+			};
+
+			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post)
 				.Build();
 
 			request.RequestBody = JsonConvert.SerializeObject(model);

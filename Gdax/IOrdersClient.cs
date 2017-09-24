@@ -7,7 +7,9 @@ namespace Gdax
 {
 	public interface IOrdersClient
 	{
-		Task<Order> SubmitMarketOrderBySize(Side side, String productId, Decimal size, OrderType orderType);
+		Task<Order> SubmitMarketOrder(Side side, String productId, Decimal size, Decimal? funds = null, OrderType orderType = OrderType.market);
+
+		Task<Order> SubmitLimitOrder(Side side, String productId, Decimal size, Decimal price, OrderType orderType, Decimal? funds = null);
 
 		Task<PagedResults<Order, Int32?>> ListOrders(String orderStatus = null, PagingOptions<Int32?> paging = null);
 

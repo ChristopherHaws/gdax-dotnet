@@ -27,7 +27,7 @@ namespace Gdax
 		/// <param name="currency"></param>
 		/// <param name="paymentID"></param>
 		/// <returns></returns>
-		public async Task<DepositWithdrawal> GetWithdrawalToBank(Decimal amount, String currency, string paymentID)
+		public async Task<DepositWithdrawal> GetWithdrawalToBank(Decimal amount, String currency, String paymentID, String crypto_Address = null, String coinbaseID = null)
 		{
 			var model = new DepositWithdrawalRequest()
 			{
@@ -36,7 +36,7 @@ namespace Gdax
 				Payment_Method_Id = paymentID
 			};
 
-			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post)
+			var request = new GdaxRequestBuilder("/withdrawals/payment-method", HttpMethod.Post)
 				.Build();
 
 			return (await this.GetResponse<DepositWithdrawal>(request).ConfigureAwait(false)).Value;
@@ -49,9 +49,40 @@ namespace Gdax
 		/// <param name="currency"></param>
 		/// <param name="crypto_address"></param>
 		/// <returns></returns>
-		public async Task<DepositWithdrawal> GetWithdrawalToWallet(double amount, string currency, string crypto_address)
+		public async Task<DepositWithdrawal> GetWithdrawalToWallet(Decimal amount, String currency, String crypto_Address, String paymentID = null, String coinbaseID = null)
 		{
+			var model = new DepositWithdrawalRequest()
+			{
+				Amount = amount,
+				Currency = currency,
+				Crypto_Address = crypto_Address
+			};
+
+
 			var request = new GdaxRequestBuilder("/withdrawals/crypto", HttpMethod.Post)
+				.Build();
+
+			return (await this.GetResponse<DepositWithdrawal>(request).ConfigureAwait(false)).Value;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="amount"></param>
+		/// <param name="currency"></param>
+		/// <param name="coinbaseID"></param>
+		/// <returns></returns>
+		public async Task<DepositWithdrawal> GetWithdrawalToCoinbase(Decimal amount, String currency, String coinbaseID, String crypto_Address = null, String paymentID = null)
+		{
+			var model = new DepositWithdrawalRequest()
+			{
+				Amount = amount,
+				Currency = currency,
+				Coinbase_Account_Id = coinbaseID
+			};
+
+
+			var request = new GdaxRequestBuilder("/withdrawals/coinbase", HttpMethod.Post)
 				.Build();
 
 			return (await this.GetResponse<DepositWithdrawal>(request).ConfigureAwait(false)).Value;

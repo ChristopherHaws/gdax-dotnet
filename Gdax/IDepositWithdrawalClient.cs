@@ -8,8 +8,10 @@ namespace Gdax
 	{
 		Task<PaymentMethod> GetPaymentMethods();
 
-		Task<DepositWithdrawal> GetWithdrawalToBank(Decimal amount, String currency, string paymentID);
+		Task<DepositWithdrawal> GetWithdrawalToBank(Decimal amount, String currency, String paymentID, String crypto_Address = null, String coinbaseID = null);
 
-		Task<DepositWithdrawal> GetWithdrawalToWallet(double amount, string currency, string crypto_address);
+		Task<DepositWithdrawal> GetWithdrawalToWallet(Decimal amount, String currency, String crypto_Address, String paymentID = null, String coinbaseID = null);
+
+		Task<DepositWithdrawal> GetWithdrawalToCoinbase(Decimal amount, String currency, String coinbaseID, String crypto_Address = null, String paymentID = null);
 	}
 }
