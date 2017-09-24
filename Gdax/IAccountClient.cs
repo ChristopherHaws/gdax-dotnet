@@ -11,6 +11,8 @@ namespace Gdax
 
 		Task<IList<Account>> GetAccounts();
 
+		Task<IList<CoinbaseAccounts>> GetCoinbaseAccounts();
+
 		Task<PagedResults<Transfer, DateTimeOffset?>> GetTransfers(Guid accountId, PagingOptions<DateTimeOffset?> paging = null);
 	}
 }

@@ -16,7 +16,7 @@ namespace Gdax
 
 			// Show JSON response status in output
 			Debug.WriteLine(this.StatusCode);
-			//Debug.WriteLine(this.Content);
+			Debug.WriteLine(this.Content);
 		}
 
 		public KeyValuePair<String, IEnumerable<String>>[] Headers { get; }

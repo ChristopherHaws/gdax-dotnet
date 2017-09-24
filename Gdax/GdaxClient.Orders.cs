@@ -20,19 +20,34 @@ namespace Gdax
 		/// <param name="funds"> Optional - Amount in fiat currency </param>
 		/// <param name="orderType"></param>
 		/// <returns></returns>
-		public async Task<Order> SubmitMarketOrder(Side side, String productId, Decimal size, Decimal? funds = null, OrderType orderType = OrderType.market)
+		public async Task<Order> SubmitMarketOrder(Side side, String productId, Decimal size, OrderType orderType = OrderType.market)
 		{			
 			var model = new OrderRequest()
 			{
 				Side = side,
 				ProductId = productId,
 				Type = orderType,
-				Size = size,
+				Size = size
+			};
+
+			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post).Build();
+
+			request.RequestBody = JsonConvert.SerializeObject(model);
+
+			return (await this.GetResponse<Order>(request).ConfigureAwait(false)).Value;
+		}
+
+		public async Task<Order> SubmitMarketOrderFiat(Side side, String productId, Decimal funds, OrderType orderType = OrderType.market)
+		{
+			var model = new OrderRequest()
+			{
+				Side = side,
+				ProductId = productId,
+				Type = orderType,
 				Funds = funds
 			};
 
-			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post)
-				.Build();
+			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post).Build();
 
 			request.RequestBody = JsonConvert.SerializeObject(model);
 
@@ -40,7 +55,7 @@ namespace Gdax
 		}
 
 		// Submit Limit or stop order
-		public async Task<Order> SubmitLimitOrder(Side side, String productId, Decimal size, Decimal price, OrderType orderType, Decimal? funds = null)
+		public async Task<Order> SubmitLimitOrder(Side side, String productId, Decimal size, Decimal price, OrderType orderType)
 		{
 			var model = new OrderRequest()
 			{
@@ -48,12 +63,29 @@ namespace Gdax
 				ProductId = productId,
 				Type = orderType,
 				Size = size,
+				Price = price
+			};
+
+			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post).Build();
+
+			request.RequestBody = JsonConvert.SerializeObject(model);
+
+			return (await this.GetResponse<Order>(request).ConfigureAwait(false)).Value;
+		}
+
+		// Submit Limit or stop order
+		public async Task<Order> SubmitStopOrderFiat(Side side, String productId, Decimal price, Decimal funds, OrderType orderType = OrderType.stop)
+		{
+			var model = new OrderRequest()
+			{
+				Side = side,
+				ProductId = productId,
 				Price = price,
+				Type = orderType,
 				Funds = funds
 			};
 
-			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post)
-				.Build();
+			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post).Build();
 
 			request.RequestBody = JsonConvert.SerializeObject(model);
 
@@ -71,14 +103,7 @@ namespace Gdax
 			return new PagedResults<Order, Int32?>(response, CursorEncoders.Int32, paging);
 		}
 
-		public async Task<IList<Order>> CancelOrders()
-		{
-			var request = new GdaxRequestBuilder("/orders", HttpMethod.Delete).Build();
-
-			return (await this.GetResponse<IList<Order>>(request).ConfigureAwait(false)).Value;
-		}
-
-		public async Task<IList<Order>> CancelOrders(string productID)
+		public async Task<IList<Order>> CancelOrders(String productID = null)
 		{
 			var request = new GdaxRequestBuilder("/orders", HttpMethod.Delete)
 				.AddParameterIfNotNull("product_id", productID)

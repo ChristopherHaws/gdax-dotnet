@@ -27,6 +27,6 @@ namespace Gdax.Models
 		public Decimal Price { get; set; }
 
 		[JsonProperty("funds")]
-		public Decimal? Funds { get; set; }
+		public Decimal Funds { get; set; }
 	}
 }

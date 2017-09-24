@@ -29,6 +29,15 @@ namespace Gdax
 			return response.Value;
 		}
 
+		public async Task<IList<CoinbaseAccounts>> GetCoinbaseAccounts()
+		{
+			var request = new GdaxRequestBuilder("/coinbase-accounts").Build();
+
+			var response = await this.GetResponse<IList<CoinbaseAccounts>>(request).ConfigureAwait(false);
+
+			return response.Value;
+		}
+
 		public async Task<PagedResults<Transfer, DateTimeOffset?>> GetTransfers(Guid accountId, PagingOptions<DateTimeOffset?> paging = null)
 		{
 			Check.NotEmpty(accountId, nameof(accountId));
