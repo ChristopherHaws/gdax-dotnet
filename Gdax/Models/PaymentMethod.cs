@@ -1,10 +1,12 @@
-﻿using System;
+﻿
+using System;
 using System.Diagnostics;
+using Gdax.Serialization;
 using Newtonsoft.Json;
 
 namespace Gdax.Models
 {
-	public class PaymentMethod
+	public partial class PaymentMethod
 	{
 		[JsonProperty("allow_withdraw")]
 		public bool AllowWithdraw { get; set; }
@@ -22,7 +24,7 @@ namespace Gdax.Models
 		public bool AllowSell { get; set; }
 
 		[JsonProperty("id")]
-		public string Id { get; set; }
+		public Guid Id { get; set; }
 
 		[JsonProperty("currency")]
 		public string Currency { get; set; }
@@ -70,9 +72,26 @@ namespace Gdax.Models
 	public partial class Remaining
 	{
 		[JsonProperty("amount")]
-		public string Amount { get; set; }
+		public Decimal Amount { get; set; }
 
 		[JsonProperty("currency")]
 		public string Currency { get; set; }
+	}
+
+
+	public partial class PaymentMethod
+	{
+		public static PaymentMethod[] FromJson(string json)
+		{
+			return JsonConvert.DeserializeObject<PaymentMethod[]>(json, Converter.Settings);
+		}
+	}
+
+	public static class SerializePaymentMethods
+	{
+		public static string ToJson(this PaymentMethod[] self)
+		{
+			return JsonConvert.SerializeObject(self, Converter.Settings);
+		}
 	}
 }

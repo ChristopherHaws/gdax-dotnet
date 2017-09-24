@@ -7,7 +7,7 @@ namespace Gdax.Models
 	{
 
 		[JsonProperty("id")]
-		public String Id { get; set; }
+		public Guid Id { get; set; }
 
 		[JsonProperty("amount")]
 		public Decimal Amount { get; set; }

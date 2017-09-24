@@ -14,6 +14,6 @@ namespace Gdax.Models
 		public String Currency { get; set; }
 
 		[JsonProperty("payment_method_id")]
-		public String Payment_Method_Id { get; set; }
+		public Guid Payment_Method_Id { get; set; }
 	}
 }

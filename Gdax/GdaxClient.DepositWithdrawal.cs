@@ -27,7 +27,7 @@ namespace Gdax
 		/// <param name="currency"></param>
 		/// <param name="paymentID"></param>
 		/// <returns></returns>
-		public async Task<DepositWithdrawal> WithdrawalToBank(Decimal amount, String currency, String paymentID)
+		public async Task<DepositWithdrawal> WithdrawalToBank(Decimal amount, String currency, Guid paymentID)
 		{
 			var model = new DepositWithdrawalRequest()
 			{
@@ -74,7 +74,7 @@ namespace Gdax
 		/// <param name="currency"></param>
 		/// <param name="coinbaseID"></param>
 		/// <returns></returns>
-		public async Task<DepositWithdrawal> WithdrawalToCoinbase(Decimal amount, String currency, String coinbaseID)
+		public async Task<DepositWithdrawal> WithdrawalToCoinbase(Decimal amount, String currency, Guid coinbaseID)
 		{
 			var model = new DepositWithdrawalRequest()
 			{
@@ -94,7 +94,7 @@ namespace Gdax
 
 		// DEPOSITS
 
-		public async Task<DepositWithdrawal> DepositFromBank(Decimal amount, String currency, String paymentID)
+		public async Task<DepositWithdrawal> DepositFromBank(Decimal amount, String currency, Guid paymentID)
 		{
 			var model = new DepositBankRequest()
 			{
@@ -111,9 +111,9 @@ namespace Gdax
 			return (await this.GetResponse<DepositWithdrawal>(request).ConfigureAwait(false)).Value;
 		}
 
-		public async Task<DepositWithdrawal> DepositFromCoinbase(Decimal amount, String currency, String coinbaseID)
+		public async Task<DepositWithdrawal> DepositFromCoinbase(Decimal amount, String currency, Guid coinbaseID)
 		{
-			var model = new DepositCoinbaseRequest()
+			var model = new DepositWithdrawalRequest()
 			{
 				Amount = amount,
 				Currency = currency,
@@ -121,7 +121,7 @@ namespace Gdax
 			};
 
 
-			var request = new GdaxRequestBuilder("/deposits/coinbase", HttpMethod.Post).Build();
+			var request = new GdaxRequestBuilder("/deposits/coinbase-account", HttpMethod.Post).Build();
 
 			request.RequestBody = JsonConvert.SerializeObject(model);
 
