@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Gdax.Models
 {
-		public partial class Order
+		public class Order
 		{
 			[JsonProperty("product_id")]
 			public String ProductId { get; set; }
@@ -51,22 +51,5 @@ namespace Gdax.Models
 
 			[JsonProperty("type")]
 			public OrderType Type { get; set; }
-		}
-
-
-		public partial class Order
-		{
-			public static Order FromJson(string json)
-			{
-				return JsonConvert.DeserializeObject<Order>(json, Converter.Settings);
-			}
-		}
-
-		public static class SerializeOrder
-		{
-			public static string ToJson(this Order self)
-			{
-				return JsonConvert.SerializeObject(self, Converter.Settings);
-			}
 		}
 	}

@@ -7,7 +7,6 @@ namespace Gdax.Models
 {
 	public class Funding
 	{
-
 		[JsonProperty("id")]
 		public string Id { get; set; }
 

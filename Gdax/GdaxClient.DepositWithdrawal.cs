@@ -9,10 +9,6 @@ namespace Gdax
 {
 	public partial class GdaxClient
 	{
-		/// <summary>
-		/// Get all payment information on account - Only need ID for payments and to check limits and Bank name etc
-		/// </summary>
-		/// <returns></returns>
 		public async Task<IList<PaymentMethod>>GetPaymentMethods()
 		{
 			var request = new GdaxRequestBuilder("/payment-methods").Build();
@@ -20,16 +16,9 @@ namespace Gdax
 			return (await this.GetResponse<IList<PaymentMethod>>(request).ConfigureAwait(false)).Value;
 		}
 
-		/// <summary>
-		/// Withdraw to Bank Account / Fiat
-		/// </summary>
-		/// <param name="amount"></param>
-		/// <param name="currency"></param>
-		/// <param name="paymentID"></param>
-		/// <returns></returns>
-		public async Task<DepositWithdrawal> WithdrawalToBank(Decimal amount, String currency, Guid paymentID)
+		public async Task<WithdrawalBank> WithdrawalToBank(Decimal amount, String currency, Guid paymentID)
 		{
-			var model = new DepositWithdrawalRequest()
+			var model = new DepositBankRequest()
 			{
 				Amount = amount,
 				Currency = currency,
@@ -40,19 +29,12 @@ namespace Gdax
 
 			request.RequestBody = JsonConvert.SerializeObject(model);
 
-			return (await this.GetResponse<DepositWithdrawal>(request).ConfigureAwait(false)).Value;
+			return (await this.GetResponse<WithdrawalBank>(request).ConfigureAwait(false)).Value;
 		}
 
-		/// <summary>
-		/// Withdraw funds to crypto wallet
-		/// </summary>
-		/// <param name="amount"></param>
-		/// <param name="currency"></param>
-		/// <param name="crypto_address"></param>
-		/// <returns></returns>
-		public async Task<DepositWithdrawal> WithdrawalToWallet(Decimal amount, String currency, String crypto_Address)
+		public async Task<WithdrawalCrypto> WithdrawalToWallet(Decimal amount, String currency, String crypto_Address)
 		{
-			var model = new DepositWithdrawalRequest()
+			var model = new WithdrawalCryptoRequest()
 			{
 				Amount = amount,
 				Currency = currency,
@@ -64,19 +46,12 @@ namespace Gdax
 
 			request.RequestBody = JsonConvert.SerializeObject(model);
 
-			return (await this.GetResponse<DepositWithdrawal>(request).ConfigureAwait(false)).Value;
+			return (await this.GetResponse<WithdrawalCrypto>(request).ConfigureAwait(false)).Value;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="amount"></param>
-		/// <param name="currency"></param>
-		/// <param name="coinbaseID"></param>
-		/// <returns></returns>
-		public async Task<DepositWithdrawal> WithdrawalToCoinbase(Decimal amount, String currency, Guid coinbaseID)
+		public async Task<WithdrawalCoinbase> WithdrawalToCoinbase(Decimal amount, String currency, Guid coinbaseID)
 		{
-			var model = new DepositWithdrawalRequest()
+			var model = new WithdrawalCoinbaseRequest()
 			{
 				Amount = amount,
 				Currency = currency,
@@ -88,13 +63,13 @@ namespace Gdax
 
 			request.RequestBody = JsonConvert.SerializeObject(model);
 
-			return (await this.GetResponse<DepositWithdrawal>(request).ConfigureAwait(false)).Value;
+			return (await this.GetResponse<WithdrawalCoinbase>(request).ConfigureAwait(false)).Value;
 		}
 
 
 		// DEPOSITS
 
-		public async Task<DepositWithdrawal> DepositFromBank(Decimal amount, String currency, Guid paymentID)
+		public async Task<DepositBank> DepositFromBank(Decimal amount, String currency, Guid paymentID)
 		{
 			var model = new DepositBankRequest()
 			{
@@ -108,12 +83,12 @@ namespace Gdax
 
 			request.RequestBody = JsonConvert.SerializeObject(model);
 
-			return (await this.GetResponse<DepositWithdrawal>(request).ConfigureAwait(false)).Value;
+			return (await this.GetResponse<DepositBank>(request).ConfigureAwait(false)).Value;
 		}
 
-		public async Task<DepositWithdrawal> DepositFromCoinbase(Decimal amount, String currency, Guid coinbaseID)
+		public async Task<DepositCoinbase> DepositFromCoinbase(Decimal amount, String currency, Guid coinbaseID)
 		{
-			var model = new DepositWithdrawalRequest()
+			var model = new DepositCoinbaseRequest()
 			{
 				Amount = amount,
 				Currency = currency,
@@ -125,7 +100,7 @@ namespace Gdax
 
 			request.RequestBody = JsonConvert.SerializeObject(model);
 
-			return (await this.GetResponse<DepositWithdrawal>(request).ConfigureAwait(false)).Value;
+			return (await this.GetResponse<DepositCoinbase>(request).ConfigureAwait(false)).Value;
 		}
 	}
 }

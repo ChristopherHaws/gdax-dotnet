@@ -7,13 +7,12 @@ namespace Gdax.Models
 {
     public class OrderRequest
     {
-		
 		[JsonProperty("client_oid")]
 		public String Client_Oid { get; set; }
 
 		[JsonProperty("side"), JsonConverter(typeof(StringEnumConverter))]
 		public Side Side { get; set; }
-		
+
 		[JsonProperty("type"), JsonConverter(typeof(StringEnumConverter))]
 		public OrderType Type { get; set; }
 
@@ -28,5 +27,16 @@ namespace Gdax.Models
 
 		[JsonProperty("funds")]
 		public Decimal Funds { get; set; }
+
+		[JsonProperty("stp")]
+		public string Stp { get; set; }
+
+		[JsonProperty("time_in_force")]
+		public Decimal Time_In_Force { get; set; }
+
+		[JsonProperty("cancel_after")]
+		public Decimal Cancel_After { get; set; }
+
 	}
 }
+

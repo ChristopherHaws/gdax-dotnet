@@ -10,18 +10,8 @@ namespace Gdax
 {
 	public partial class GdaxClient
     {
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="side"></param>
-		/// <param name="productId"></param>
-		/// <param name="size"> Size in BTC / ETH etc </param>
-		/// <param name="funds"> Optional - Amount in fiat currency </param>
-		/// <param name="orderType"></param>
-		/// <returns></returns>
 		public async Task<Order> SubmitMarketOrder(Side side, String productId, Decimal size, OrderType orderType = OrderType.market)
-		{			
+		{
 			var model = new OrderRequest()
 			{
 				Side = side,
@@ -103,12 +93,15 @@ namespace Gdax
 			return new PagedResults<Order, Int32?>(response, CursorEncoders.Int32, paging);
 		}
 
-		public async Task<IList<Order>> CancelOrders()
+		public async Task<IList<Order>> CancelOrders(String productID = null)
 		{
 			var request = new GdaxRequestBuilder("/orders", HttpMethod.Delete)
+				.AddParameterIfNotNull("product_id", productID)
 				.Build();
 
-			return (await this.GetResponse<IList<Order>>(request).ConfigureAwait(false)).Value;
+			var response = await this.GetResponse<IList<Order>>(request).ConfigureAwait(false);
+
+			return response.Value;
 		}
 	}
 }

@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace Gdax.Models
 {
-    class DepositCoinbaseRequest
+	public class WithdrawalBank
 	{
+		[JsonProperty("id")]
+		public Guid Id { get; set; }
 
 		[JsonProperty("amount")]
 		public Decimal Amount { get; set; }
@@ -14,8 +14,8 @@ namespace Gdax.Models
 		[JsonProperty("currency")]
 		public String Currency { get; set; }
 
-		[JsonProperty("coinbase_account_id")]
-		public Guid Coinbase_Account_Id { get; set; }
-
+		[JsonProperty("payout_at")]
+		public DateTime Payout_At { get; set; }
 	}
+
 }

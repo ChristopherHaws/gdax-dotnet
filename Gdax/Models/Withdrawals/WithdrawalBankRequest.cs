@@ -1,22 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Newtonsoft.Json;
 
 namespace Gdax.Models
 {
-	public class DepositWithdrawal
+    public class WithdrawalBankRequest
 	{
-
-		[JsonProperty("id")]
-		public Guid Id { get; set; }
-
 		[JsonProperty("amount")]
 		public Decimal Amount { get; set; }
 
 		[JsonProperty("currency")]
 		public String Currency { get; set; }
 
-		[JsonProperty("payout_at")]
-		public DateTime Payout_At { get; set; }
+		[JsonProperty("payment_method_id")]
+		public Guid Payment_Method_Id { get; set; }
 	}
-
 }
