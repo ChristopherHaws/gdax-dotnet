@@ -26,7 +26,7 @@ namespace Gdax.Models
 			public bool PostOnly { get; set; }
 
 			[JsonProperty("id")]
-			public Guid Id { get; set; }
+			public String Id { get; set; }
 
 			[JsonProperty("price")]
 			public Decimal Price { get; set; }

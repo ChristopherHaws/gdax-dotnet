@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Gdax.Models;
+using Gdax.Models.Orders;
 using Newtonsoft.Json;
 
 namespace Gdax
@@ -93,15 +94,17 @@ namespace Gdax
 			return new PagedResults<Order, Int32?>(response, CursorEncoders.Int32, paging);
 		}
 
-		public async Task<IList<Order>> CancelOrders(String productID = null)
+		public async Task<IList<OrderDelete>> CancelOrders(String productID = null)
 		{
 			var request = new GdaxRequestBuilder("/orders", HttpMethod.Delete)
 				.AddParameterIfNotNull("product_id", productID)
 				.Build();
 
-			var response = await this.GetResponse<IList<Order>>(request).ConfigureAwait(false);
 
-			return response.Value;
+			var orders = (await this.GetResponse<IList<Guid>>(request).ConfigureAwait(false)).Value;
+
+			return new List<OrderDelete>();
+
 		}
 	}
 }
