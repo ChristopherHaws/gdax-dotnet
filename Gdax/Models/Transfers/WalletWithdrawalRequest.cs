@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace Gdax.Models
 {
-    public class WithdrawalCryptoRequest
+	internal class WalletWithdrawalRequest
 	{
 		[JsonProperty("amount")]
 		public Decimal Amount { get; set; }
@@ -14,7 +12,6 @@ namespace Gdax.Models
 		public String Currency { get; set; }
 
 		[JsonProperty("crypto_address")]
-		public String Crypto_Address { get; set; }
-
+		public String CryptoAddress { get; set; }
 	}
 }

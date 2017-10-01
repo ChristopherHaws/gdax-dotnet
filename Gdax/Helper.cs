@@ -1,41 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using Gdax.Models;
 
 namespace Gdax
 {
-    public static class Helper
-    {
-		internal static Side ToOrderSide(this string value)
+	public static class Helper
+	{
+		internal static Side ToOrderSide(this String value)
 		{
 			Debug.WriteLine("Order Side Value = " + value);
 			switch (value)
 			{
 				case "buy":
-					return Side.buy;
+					return Side.Buy;
 
 				case "sell":
-					return Side.sell;
+					return Side.Sell;
 			}
 
 			throw new ArgumentOutOfRangeException("value");
 		}
 
-		internal static OrderType ToOrderType(this string value)
+		internal static OrderType ToOrderType(this String value)
 		{
 			Debug.WriteLine("Order Type Value = " + value);
 			switch (value)
 			{
 				case "market":
-					return OrderType.market;
+					return OrderType.Market;
 
 				case "limit":
-					return OrderType.limit;
+					return OrderType.Limit;
 
 				case "stop":
-					return OrderType.stop;
+					return OrderType.Stop;
 			}
 
 			throw new ArgumentOutOfRangeException("value");

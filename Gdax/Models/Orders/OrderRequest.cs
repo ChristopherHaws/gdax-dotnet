@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Gdax.Models
 {
-    public class OrderRequest
-    {
+	public class OrderRequest
+	{
 		[JsonProperty("client_oid")]
 		public String Client_Oid { get; set; }
 
@@ -29,14 +28,13 @@ namespace Gdax.Models
 		public Decimal Funds { get; set; }
 
 		[JsonProperty("stp")]
-		public string Stp { get; set; }
+		public String Stp { get; set; }
 
 		[JsonProperty("time_in_force")]
-		public Decimal Time_In_Force { get; set; }
+		public Decimal TimeInForce { get; set; }
 
 		[JsonProperty("cancel_after")]
-		public Decimal Cancel_After { get; set; }
-
+		public Decimal CancelAfter { get; set; }
 	}
 }
 

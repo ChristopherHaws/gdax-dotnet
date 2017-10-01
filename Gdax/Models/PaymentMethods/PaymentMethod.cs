@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.Diagnostics;
-using Gdax.Serialization;
+﻿using System;
 using Newtonsoft.Json;
 
 namespace Gdax.Models
@@ -9,33 +6,33 @@ namespace Gdax.Models
 	public class PaymentMethod
 	{
 		[JsonProperty("allow_withdraw")]
-		public bool AllowWithdraw { get; set; }
+		public Boolean AllowWithdraw { get; set; }
 
 		[JsonProperty("name")]
-		public string Name { get; set; }
+		public String Name { get; set; }
 
 		[JsonProperty("allow_deposit")]
-		public bool AllowDeposit { get; set; }
+		public Boolean AllowDeposit { get; set; }
 
 		[JsonProperty("allow_buy")]
-		public bool AllowBuy { get; set; }
+		public Boolean AllowBuy { get; set; }
 
 		[JsonProperty("allow_sell")]
-		public bool AllowSell { get; set; }
+		public Boolean AllowSell { get; set; }
 
 		[JsonProperty("id")]
 		public Guid Id { get; set; }
 
 		[JsonProperty("currency")]
-		public string Currency { get; set; }
+		public String Currency { get; set; }
 
 		[JsonProperty("primary_sell")]
-		public bool PrimarySell { get; set; }
+		public Boolean PrimarySell { get; set; }
 
 		[JsonProperty("primary_buy")]
-		public bool PrimaryBuy { get; set; }
+		public Boolean PrimaryBuy { get; set; }
 
 		[JsonProperty("type")]
-		public string Type { get; set; }
+		public String Type { get; set; }
 	}
 }

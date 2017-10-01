@@ -7,18 +7,16 @@ namespace Gdax
 {
 	public interface IOrdersClient
 	{
-		Task<Order> SubmitMarketOrder(Side side, String productId, Decimal size, OrderType orderType = OrderType.market);
+		Task<Order> SubmitMarketOrder(Side side, String productId, Decimal size);
 
-		Task<Order> SubmitMarketOrderFiat(Side side, String productId, Decimal funds, OrderType orderType = OrderType.market);
+		Task<Order> SubmitMarketOrderFiat(Side side, String productId, Decimal funds);
 
-		Task<Order> SubmitLimitOrder(Side side, String productId, Decimal size, Decimal price, OrderType orderType);
+		Task<Order> SubmitLimitOrder(Side side, String productId, Decimal size, Decimal price);
 
-		Task<Order> SubmitStopOrderFiat(Side side, String productId, Decimal price, Decimal funds, OrderType orderType = OrderType.stop);
+		Task<Order> SubmitStopOrderFiat(Side side, String productId, Decimal price, Decimal funds);
 
-		Task<PagedResults<Order, Int32?>> ListOrders(String orderStatus = null, PagingOptions<Int32?> paging = null);
+		Task<PagedResults<Order, Int32?>> ListOpenOrders(String productId = null, OrderStates? states = null, PagingOptions<Int32?> paging = null);
 
-		Task<IList<Order>> CancelOrders(String productID = null);
-
-
+		Task<IList<Guid>> CancelAllOrders(String productID = null);
 	}
 }

@@ -1,21 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Gdax.Models;
 
 namespace Gdax
 {
-	public interface IDepositWithdrawalClient
+	public interface ITransferClient
 	{
-		Task<PaymentMethod> GetPaymentMethods();
+		Task<IList<PaymentMethod>> GetPaymentMethods();
 
-		Task<WithdrawalBank> WithdrawalToBank(Decimal amount, String currency, Guid paymentID);
+		Task<BankTransfer> WithdrawToBank(Decimal amount, String currency, Guid paymentID);
 
-		Task<WithdrawalCrypto> WithdrawalToWallet(Decimal amount, String currency, String crypto_Address);
+		Task<WalletWithdrawal> WithdrawToWallet(Decimal amount, String currency, String cryptoAddress);
 
-		Task<WithdrawalCoinbase> WithdrawalToCoinbase(Decimal amount, String currency, Guid coinbaseID);
+		Task<CoinbaseWithdrawal> WithdrawToCoinbase(Decimal amount, String currency, Guid coinbaseID);
 
-		Task<DepositBank> DepositFromBank(Decimal amount, String currency, Guid paymentID);
+		Task<BankTransfer> DepositFromBank(Decimal amount, String currency, Guid paymentID);
 
-		Task<DepositCoinbase> DepositFromCoinbase(Decimal amount, String currency, Guid coinbaseID);
+		Task<CoinbaseDeposit> DepositFromCoinbase(Decimal amount, String currency, Guid coinbaseID);
 	}
 }

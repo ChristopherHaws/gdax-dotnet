@@ -11,7 +11,7 @@ namespace Gdax.Models
 
 	public class LiquidityTypeConverter : JsonConverter
 	{
-		public override bool CanConvert(Type objectType)
+		public override Boolean CanConvert(Type objectType)
 		{
 			return objectType == typeof(LiquidityType);
 		}

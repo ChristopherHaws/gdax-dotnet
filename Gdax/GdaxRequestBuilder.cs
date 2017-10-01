@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
-using Gdax.Models;
 using Newtonsoft.Json;
 
 namespace Gdax
@@ -14,12 +14,15 @@ namespace Gdax
 		public HttpMethod method;
 		private String relativePath;
 		private Dictionary<String, String> queryParameters;
+		private String body;
 
-		public GdaxRequestBuilder(): this("/", HttpMethod.Get)
+		public GdaxRequestBuilder()
+			: this("/", HttpMethod.Get)
 		{
 		}
 
-		public GdaxRequestBuilder(String relativePath) : this(relativePath, HttpMethod.Get)
+		public GdaxRequestBuilder(String relativePath)
+			: this(relativePath, HttpMethod.Get)
 		{
 		}
 
@@ -44,6 +47,35 @@ namespace Gdax
 			return this;
 		}
 
+		public GdaxRequestBuilder AddEnumParameterIfNotNull<T>(String key, T? value)
+			where T : struct, IConvertible
+		{
+			Check.NotNullOrWhiteSpace(key, nameof(key));
+
+			if (value == null)
+			{
+				return this;
+			}
+			
+			var typeInfo = typeof(T).GetTypeInfo();
+			
+			if (!typeInfo.IsEnum)
+			{
+				throw new ArgumentException("Value is not a valid enum.", nameof(value));
+			}
+			
+			var values = typeInfo.IsDefined(typeof(FlagsAttribute), true)
+				? value.ToString().Split(',').Select(flag => (T)Enum.Parse(typeof(T), flag)).ToList()
+				: new List<T>() { value.Value };
+
+			foreach (var enumValue in values)
+			{
+				this.queryParameters.Add(key, Enum.GetName(typeof(T), enumValue));
+			}
+			
+			return this;
+		}
+
 		public GdaxRequestBuilder AddPagingOptions<TCursor>(PagingOptions<TCursor> paging, ICursorEncoder<TCursor> encoder)
 		{
 			if (paging == null)
@@ -54,6 +86,14 @@ namespace Gdax
 			this.AddParameterIfNotNull("limit", paging.Limit?.ToString());
 			this.AddParameterIfNotNull("before", encoder.Encode(paging.NewerThan));
 			this.AddParameterIfNotNull("after", encoder.Encode(paging.OlderThan));
+
+			return this;
+		}
+
+
+		public GdaxRequestBuilder AddBody<T>(T value)
+		{
+			this.body = JsonConvert.SerializeObject(value);
 
 			return this;
 		}
@@ -102,6 +142,11 @@ namespace Gdax
 			}
 
 			var request = new GdaxRequest(this.method, uriBuilder.ToString());
+
+			if (this.body != null)
+			{
+				request.RequestBody = this.body;
+			}
 
 			return new GdaxRequest(this.method, uriBuilder.ToString());
 		}

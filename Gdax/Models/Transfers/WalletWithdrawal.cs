@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Gdax.Models
 {
-	public class WithdrawalBank
+	public class WalletWithdrawal
 	{
 		[JsonProperty("id")]
 		public Guid Id { get; set; }
@@ -13,9 +13,5 @@ namespace Gdax.Models
 
 		[JsonProperty("currency")]
 		public String Currency { get; set; }
-
-		[JsonProperty("payout_at")]
-		public DateTime Payout_At { get; set; }
 	}
-
 }

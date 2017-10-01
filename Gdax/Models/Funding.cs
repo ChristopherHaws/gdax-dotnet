@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace Gdax.Models
@@ -8,34 +6,33 @@ namespace Gdax.Models
 	public class Funding
 	{
 		[JsonProperty("id")]
-		public string Id { get; set; }
+		public String Id { get; set; }
 
 		[JsonProperty("order_id")]
-		public string OrderId { get; set; }
+		public String OrderId { get; set; }
 
 		[JsonProperty("profile_id")]
-		public string ProfileId { get; set; }
+		public String ProfileId { get; set; }
 
 		[JsonProperty("amount")]
-		public string Amount { get; set; }
+		public String Amount { get; set; }
 
 		[JsonProperty("status")]
-		public string Status { get; set; }
+		public String Status { get; set; }
 
 		[JsonProperty("created_at")]
 		public DateTime CreatedAt { get; set; }
 
 		[JsonProperty("currency")]
-		public string Currency { get; set; }
+		public String Currency { get; set; }
 
 		[JsonProperty("repaid_amount")]
-		public string RepaidAmount { get; set; }
+		public String RepaidAmount { get; set; }
 
 		[JsonProperty("default_amount")]
-		public string DefaultAmount { get; set; }
+		public String DefaultAmount { get; set; }
 
 		[JsonProperty("repaid_default")]
-		public bool RepaidDefault { get; set; }
+		public Boolean RepaidDefault { get; set; }
 	}
-
 }
