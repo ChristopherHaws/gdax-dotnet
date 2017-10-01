@@ -95,7 +95,7 @@ namespace JetBrains.Annotations
 	/// <summary>
 	/// Indicates that the marked method builds string by format pattern and (optional) arguments.
 	/// Parameter, which contains format string, should be given in constructor. The format string
-	/// should be in <see cref="string.Format(IFormatProvider,string,object[])"/>-like form.
+	/// should be in <see cref="String.Format(IFormatProvider,String,global::System.Object[])"/>-like form.
 	/// </summary>
 	/// <example><code>
 	/// [StringFormatMethod("message")]
