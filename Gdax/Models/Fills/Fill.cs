@@ -26,7 +26,6 @@ namespace Gdax.Models
 		public DateTime CreatedAt { get; set; }
 
 		[JsonProperty("liquidity")]
-		[JsonConverter(typeof(LiquidityTypeConverter))]
 		public LiquidityType Liquidity { get; set; }
 
 		[JsonProperty("fee")]

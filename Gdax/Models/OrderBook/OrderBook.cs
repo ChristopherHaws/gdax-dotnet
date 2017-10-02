@@ -27,6 +27,7 @@ namespace Gdax.Models
 		/// </summary>
 		/// 
 		Level1 = 1,
+
 		/// <summary>
 		/// Top 50 bids and asks (aggregated)
 		/// </summary>

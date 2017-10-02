@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Gdax.Serialization;
 
 namespace Gdax
 {
@@ -61,7 +62,17 @@ namespace Gdax
 		{
 			var httpRequest = this.BuildRequestMessagee(request);
 
-			return await this.http.SendAsync(httpRequest).ConfigureAwait(false);
+			var response = await this.http.SendAsync(httpRequest).ConfigureAwait(false);
+
+			if (!response.IsSuccessStatusCode)
+			{
+				var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+				var error = this.serialzer.Deserialize<GdaxErrorMessage>(body);
+
+				throw new GdaxException(error.Message);
+			}
+
+			return response;
 		}
 
 		private HttpRequestMessage BuildRequestMessagee(GdaxRequest request)

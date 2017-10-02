@@ -95,7 +95,7 @@ namespace JetBrains.Annotations
 	/// <summary>
 	/// Indicates that the marked method builds string by format pattern and (optional) arguments.
 	/// Parameter, which contains format string, should be given in constructor. The format string
-	/// should be in <see cref="string.Format(IFormatProvider,string,object[])"/>-like form.
+	/// should be in <see cref="String.Format(IFormatProvider,String,global::System.Object[])"/>-like form.
 	/// </summary>
 	/// <example><code>
 	/// [StringFormatMethod("message")]
@@ -114,14 +114,14 @@ namespace JetBrains.Annotations
 		/// Specifies which parameter of an annotated method should be treated as format-string
 		/// </param>
 		//[ExcludeFromCodeCoverage]
-		public StringFormatMethodAttribute([NotNull] string formatParameterName)
+		public StringFormatMethodAttribute([NotNull] String formatParameterName)
 		{
 			this.FormatParameterName = formatParameterName;
 		}
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string FormatParameterName { get; private set; }
+		public String FormatParameterName { get; private set; }
 	}
 
 	/// <summary>
@@ -132,14 +132,14 @@ namespace JetBrains.Annotations
 	internal sealed class ValueProviderAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public ValueProviderAttribute([NotNull] string name)
+		public ValueProviderAttribute([NotNull] String name)
 		{
 			this.Name = name;
 		}
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string Name { get; private set; }
+		public String Name { get; private set; }
 	}
 
 	/// <summary>
@@ -200,14 +200,14 @@ namespace JetBrains.Annotations
 		//[ExcludeFromCodeCoverage]
 		public NotifyPropertyChangedInvocatorAttribute() { }
 		//[ExcludeFromCodeCoverage]
-		public NotifyPropertyChangedInvocatorAttribute([NotNull] string parameterName)
+		public NotifyPropertyChangedInvocatorAttribute([NotNull] String parameterName)
 		{
 			this.ParameterName = parameterName;
 		}
 
 		[CanBeNull]
 		//[ExcludeFromCodeCoverage]
-		public string ParameterName { get; private set; }
+		public String ParameterName { get; private set; }
 	}
 
 	/// <summary>
@@ -257,11 +257,11 @@ namespace JetBrains.Annotations
 	internal sealed class ContractAnnotationAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public ContractAnnotationAttribute([NotNull] string contract)
+		public ContractAnnotationAttribute([NotNull] String contract)
 			: this(contract, false) { }
 
 		//[ExcludeFromCodeCoverage]
-		public ContractAnnotationAttribute([NotNull] string contract, bool forceFullStates)
+		public ContractAnnotationAttribute([NotNull] String contract, Boolean forceFullStates)
 		{
 			this.Contract = contract;
 			this.ForceFullStates = forceFullStates;
@@ -269,9 +269,9 @@ namespace JetBrains.Annotations
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string Contract { get; private set; }
+		public String Contract { get; private set; }
 		//[ExcludeFromCodeCoverage]
-		public bool ForceFullStates { get; private set; }
+		public Boolean ForceFullStates { get; private set; }
 	}
 
 	/// <summary>
@@ -289,13 +289,13 @@ namespace JetBrains.Annotations
 		//[ExcludeFromCodeCoverage]
 		public LocalizationRequiredAttribute() : this(true) { }
 		//[ExcludeFromCodeCoverage]
-		public LocalizationRequiredAttribute(bool required)
+		public LocalizationRequiredAttribute(Boolean required)
 		{
 			this.Required = required;
 		}
 
 		//[ExcludeFromCodeCoverage]
-		public bool Required { get; private set; }
+		public Boolean Required { get; private set; }
 	}
 
 	/// <summary>
@@ -455,14 +455,14 @@ namespace JetBrains.Annotations
 		//[ExcludeFromCodeCoverage]
 		public PublicAPIAttribute() { }
 		//[ExcludeFromCodeCoverage]
-		public PublicAPIAttribute([NotNull] string comment)
+		public PublicAPIAttribute([NotNull] String comment)
 		{
 			this.Comment = comment;
 		}
 
 		[CanBeNull]
 		//[ExcludeFromCodeCoverage]
-		public string Comment { get; private set; }
+		public String Comment { get; private set; }
 	}
 
 	/// <summary>
@@ -496,14 +496,14 @@ namespace JetBrains.Annotations
 		//[ExcludeFromCodeCoverage]
 		public MustUseReturnValueAttribute() { }
 		//[ExcludeFromCodeCoverage]
-		public MustUseReturnValueAttribute([NotNull] string justification)
+		public MustUseReturnValueAttribute([NotNull] String justification)
 		{
 			this.Justification = justification;
 		}
 
 		[CanBeNull]
 		//[ExcludeFromCodeCoverage]
-		public string Justification { get; private set; }
+		public String Justification { get; private set; }
 	}
 
 	/// <summary>
@@ -536,14 +536,14 @@ namespace JetBrains.Annotations
 		//[ExcludeFromCodeCoverage]
 		public PathReferenceAttribute() { }
 		//[ExcludeFromCodeCoverage]
-		public PathReferenceAttribute([NotNull, PathReference] string basePath)
+		public PathReferenceAttribute([NotNull, PathReference] String basePath)
 		{
 			this.BasePath = basePath;
 		}
 
 		[CanBeNull]
 		//[ExcludeFromCodeCoverage]
-		public string BasePath { get; private set; }
+		public String BasePath { get; private set; }
 	}
 
 	/// <summary>
@@ -608,7 +608,7 @@ namespace JetBrains.Annotations
 		/// parameter when the template is expanded.
 		/// </summary>
 		//[ExcludeFromCodeCoverage]
-		public string Expression { get; set; }
+		public String Expression { get; set; }
 
 		/// <summary>
 		/// Allows specifying which occurrence of the target parameter becomes editable when the template is deployed.
@@ -619,97 +619,97 @@ namespace JetBrains.Annotations
 		/// use values >= 0. To make the parameter non-editable when the template is expanded, use -1.
 		/// </remarks>>
 		//[ExcludeFromCodeCoverage]
-		public int Editable { get; set; }
+		public Int32 Editable { get; set; }
 
 		/// <summary>
 		/// Identifies the target parameter of a <see cref="SourceTemplateAttribute">source template</see> if the
 		/// <see cref="MacroAttribute"/> is applied on a template method.
 		/// </summary>
 		//[ExcludeFromCodeCoverage]
-		public string Target { get; set; }
+		public String Target { get; set; }
 	}
 
 	[AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
 	internal sealed class AspMvcAreaMasterLocationFormatAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public AspMvcAreaMasterLocationFormatAttribute([NotNull] string format)
+		public AspMvcAreaMasterLocationFormatAttribute([NotNull] String format)
 		{
 			this.Format = format;
 		}
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string Format { get; private set; }
+		public String Format { get; private set; }
 	}
 
 	[AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
 	internal sealed class AspMvcAreaPartialViewLocationFormatAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public AspMvcAreaPartialViewLocationFormatAttribute([NotNull] string format)
+		public AspMvcAreaPartialViewLocationFormatAttribute([NotNull] String format)
 		{
 			this.Format = format;
 		}
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string Format { get; private set; }
+		public String Format { get; private set; }
 	}
 
 	[AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
 	internal sealed class AspMvcAreaViewLocationFormatAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public AspMvcAreaViewLocationFormatAttribute([NotNull] string format)
+		public AspMvcAreaViewLocationFormatAttribute([NotNull] String format)
 		{
 			this.Format = format;
 		}
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string Format { get; private set; }
+		public String Format { get; private set; }
 	}
 
 	[AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
 	internal sealed class AspMvcMasterLocationFormatAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public AspMvcMasterLocationFormatAttribute(string format)
+		public AspMvcMasterLocationFormatAttribute(String format)
 		{
 			this.Format = format;
 		}
 
 		//[ExcludeFromCodeCoverage]
-		public string Format { get; private set; }
+		public String Format { get; private set; }
 	}
 
 	[AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
 	internal sealed class AspMvcPartialViewLocationFormatAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public AspMvcPartialViewLocationFormatAttribute([NotNull] string format)
+		public AspMvcPartialViewLocationFormatAttribute([NotNull] String format)
 		{
 			this.Format = format;
 		}
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string Format { get; private set; }
+		public String Format { get; private set; }
 	}
 
 	[AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
 	internal sealed class AspMvcViewLocationFormatAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public AspMvcViewLocationFormatAttribute([NotNull] string format)
+		public AspMvcViewLocationFormatAttribute([NotNull] String format)
 		{
 			this.Format = format;
 		}
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string Format { get; private set; }
+		public String Format { get; private set; }
 	}
 
 	/// <summary>
@@ -724,14 +724,14 @@ namespace JetBrains.Annotations
 		//[ExcludeFromCodeCoverage]
 		public AspMvcActionAttribute() { }
 		//[ExcludeFromCodeCoverage]
-		public AspMvcActionAttribute([NotNull] string anonymousProperty)
+		public AspMvcActionAttribute([NotNull] String anonymousProperty)
 		{
 			this.AnonymousProperty = anonymousProperty;
 		}
 
 		[CanBeNull]
 		//[ExcludeFromCodeCoverage]
-		public string AnonymousProperty { get; private set; }
+		public String AnonymousProperty { get; private set; }
 	}
 
 	/// <summary>
@@ -745,14 +745,14 @@ namespace JetBrains.Annotations
 		//[ExcludeFromCodeCoverage]
 		public AspMvcAreaAttribute() { }
 		//[ExcludeFromCodeCoverage]
-		public AspMvcAreaAttribute([NotNull] string anonymousProperty)
+		public AspMvcAreaAttribute([NotNull] String anonymousProperty)
 		{
 			this.AnonymousProperty = anonymousProperty;
 		}
 
 		[CanBeNull]
 		//[ExcludeFromCodeCoverage]
-		public string AnonymousProperty { get; private set; }
+		public String AnonymousProperty { get; private set; }
 	}
 
 	/// <summary>
@@ -767,14 +767,14 @@ namespace JetBrains.Annotations
 		//[ExcludeFromCodeCoverage]
 		public AspMvcControllerAttribute() { }
 		//[ExcludeFromCodeCoverage]
-		public AspMvcControllerAttribute([NotNull] string anonymousProperty)
+		public AspMvcControllerAttribute([NotNull] String anonymousProperty)
 		{
 			this.AnonymousProperty = anonymousProperty;
 		}
 
 		[CanBeNull]
 		//[ExcludeFromCodeCoverage]
-		public string AnonymousProperty { get; private set; }
+		public String AnonymousProperty { get; private set; }
 	}
 
 	/// <summary>
@@ -873,28 +873,28 @@ namespace JetBrains.Annotations
 		//[ExcludeFromCodeCoverage]
 		public HtmlElementAttributesAttribute() { }
 		//[ExcludeFromCodeCoverage]
-		public HtmlElementAttributesAttribute([NotNull] string name)
+		public HtmlElementAttributesAttribute([NotNull] String name)
 		{
 			this.Name = name;
 		}
 
 		[CanBeNull]
 		//[ExcludeFromCodeCoverage]
-		public string Name { get; private set; }
+		public String Name { get; private set; }
 	}
 
 	[AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Field | AttributeTargets.Property)]
 	internal sealed class HtmlAttributeValueAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public HtmlAttributeValueAttribute([NotNull] string name)
+		public HtmlAttributeValueAttribute([NotNull] String name)
 		{
 			this.Name = name;
 		}
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string Name { get; private set; }
+		public String Name { get; private set; }
 	}
 
 	/// <summary>
@@ -1028,7 +1028,7 @@ namespace JetBrains.Annotations
 	internal sealed class AspChildControlTypeAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public AspChildControlTypeAttribute([NotNull] string tagName, [NotNull] Type controlType)
+		public AspChildControlTypeAttribute([NotNull] String tagName, [NotNull] Type controlType)
 		{
 			this.TagName = tagName;
 			this.ControlType = controlType;
@@ -1036,7 +1036,7 @@ namespace JetBrains.Annotations
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string TagName { get; private set; }
+		public String TagName { get; private set; }
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
 		public Type ControlType { get; private set; }
@@ -1055,24 +1055,24 @@ namespace JetBrains.Annotations
 	internal sealed class AspRequiredAttributeAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public AspRequiredAttributeAttribute([NotNull] string attribute)
+		public AspRequiredAttributeAttribute([NotNull] String attribute)
 		{
 			this.Attribute = attribute;
 		}
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string Attribute { get; private set; }
+		public String Attribute { get; private set; }
 	}
 
 	[AttributeUsage(AttributeTargets.Property)]
 	internal sealed class AspTypePropertyAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public bool CreateConstructorReferences { get; private set; }
+		public Boolean CreateConstructorReferences { get; private set; }
 
 		//[ExcludeFromCodeCoverage]
-		public AspTypePropertyAttribute(bool createConstructorReferences)
+		public AspTypePropertyAttribute(Boolean createConstructorReferences)
 		{
 			this.CreateConstructorReferences = createConstructorReferences;
 		}
@@ -1082,21 +1082,21 @@ namespace JetBrains.Annotations
 	internal sealed class RazorImportNamespaceAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public RazorImportNamespaceAttribute([NotNull] string name)
+		public RazorImportNamespaceAttribute([NotNull] String name)
 		{
 			this.Name = name;
 		}
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string Name { get; private set; }
+		public String Name { get; private set; }
 	}
 
 	[AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
 	internal sealed class RazorInjectionAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public RazorInjectionAttribute([NotNull] string type, [NotNull] string fieldName)
+		public RazorInjectionAttribute([NotNull] String type, [NotNull] String fieldName)
 		{
 			this.Type = type;
 			this.FieldName = fieldName;
@@ -1104,24 +1104,24 @@ namespace JetBrains.Annotations
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string Type { get; private set; }
+		public String Type { get; private set; }
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string FieldName { get; private set; }
+		public String FieldName { get; private set; }
 	}
 
 	[AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
 	internal sealed class RazorDirectiveAttribute : Attribute
 	{
 		//[ExcludeFromCodeCoverage]
-		public RazorDirectiveAttribute([NotNull] string directive)
+		public RazorDirectiveAttribute([NotNull] String directive)
 		{
 			this.Directive = directive;
 		}
 
 		[NotNull]
 		//[ExcludeFromCodeCoverage]
-		public string Directive { get; private set; }
+		public String Directive { get; private set; }
 	}
 
 	[AttributeUsage(AttributeTargets.Method)]

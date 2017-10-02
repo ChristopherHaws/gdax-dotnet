@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Gdax.Models;
 using Shouldly;
 using Xunit;
 
@@ -28,6 +29,19 @@ namespace Gdax.Fills
 			{
 				UseSandbox = true
 			};
+
+			var accounts = await client.GetCoinbaseAccounts();
+			var btcAccount = accounts.First(x => x.Currency == "BTC");
+
+			if (btcAccount.Balance > 0)
+			{
+				await client.DepositFromCoinbase(10, btcAccount.Currency, btcAccount.Id);
+			}
+
+			await client.PlaceMarketOrder(Side.Sell, "BTC-USD", 0.01m);
+			await client.PlaceMarketOrder(Side.Sell, "BTC-USD", 0.02m);
+			await client.PlaceMarketOrder(Side.Sell, "BTC-USD", 0.03m);
+			await client.PlaceMarketOrder(Side.Sell, "BTC-USD", 0.04m);
 
 			var fills = await client.GetFills(paging: new PagingOptions<Int32?>
 			{

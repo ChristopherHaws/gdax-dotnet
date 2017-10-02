@@ -9,6 +9,20 @@ All contributions must be checked into their own branch, containing only work re
 2. All code must meet the coding guidelines
 3. All public interfaces and public POCO classes must be fully documented with meaningful documentation
 
+## Running Tests
+To run the unit tests, you will need to:
+1. login to https://public.sandbox.gdax.com/ and create an api key.
+2. Open an elevated command prompt
+3. Navigate to the test directory (Gdax.Tests)
+4. Run the following commands, replacing the tokens with your api key values. (If you prefer, you can alternatively create environment variables instead)
+```
+dotnet user-secrets set GdaxCredentials:ApiKey "[API_KEY]"
+dotnet user-secrets set GdaxCredentials:Passphrase "[PASSPHRASE]"
+dotnet user-secrets set GdaxCredentials:Secret "[SECRET]"
+```
+
+Once this is done, you should be able to run the unit tests without any issue. If at some point most of the tests start failing it could be because the sandbox environment got reset so you will need to follow these steps again.
+
 ## Tips are appreciated!
 
 - **BTC**: 196JGgN3jGJTBoZkF1F2o68gJys81W9wss
