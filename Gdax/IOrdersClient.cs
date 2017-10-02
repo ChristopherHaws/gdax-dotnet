@@ -40,7 +40,7 @@ namespace Gdax
 		/// <param name="states">Limit returned orders to these statuses.</param>
 		/// <param name="paging">The paging.</param>
 		/// <returns></returns>
-		Task<PagedResults<Order, Int32?>> GetOrders(String productId = null, OrderStates? states = null, PagingOptions<Int32?> paging = null);
+		Task<PagedResults<Order, DateTime?>> GetOrders(String productId = null, OrderStates? states = null, PagingOptions<DateTime?> paging = null);
 
 		Task CancelOrder(String orderId);
 

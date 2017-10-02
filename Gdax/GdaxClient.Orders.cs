@@ -85,16 +85,17 @@ namespace Gdax
 			return (await this.GetResponse<Order>(request).ConfigureAwait(false)).Value;
 		}
 
-		public async Task<PagedResults<Order, Int32?>> GetOrders(String productId = null, OrderStates? states = null, PagingOptions<Int32?> paging = null)
+		public async Task<PagedResults<Order, DateTime?>> GetOrders(String productId = null, OrderStates? states = null, PagingOptions<DateTime?> paging = null)
 		{
 			var request = new GdaxRequestBuilder("/orders")
 				.AddEnumParameterIfNotNull("status", states)
 				.AddParameterIfNotNull("product_id", productId)
+				.AddPagingOptions(paging, CursorEncoders.DateTime)
 				.Build();
 
 			var response = await this.GetResponse<IList<Order>>(request).ConfigureAwait(false);
 
-			return new PagedResults<Order, Int32?>(response, CursorEncoders.Int32, paging);
+			return new PagedResults<Order, DateTime?>(response, CursorEncoders.DateTime, paging);
 		}
 
 		public async Task CancelOrder(String orderId)

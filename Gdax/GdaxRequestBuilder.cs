@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using Gdax.Internal;
 using Gdax.Serialization;
 
 namespace Gdax
@@ -70,7 +72,7 @@ namespace Gdax
 
 			foreach (var enumValue in values)
 			{
-				this.queryParameters.Add(key, Enum.GetName(typeof(T), enumValue).ToLower());
+				this.queryParameters.Add(key, enumValue.GetEnumMemberValue());
 			}
 			
 			return this;
@@ -84,6 +86,8 @@ namespace Gdax
 			}
 
 			this.AddParameterIfNotNull("limit", paging.Limit?.ToString());
+			this.AddParameterIfNotNull("sortedBy", paging.SortBy);
+			this.AddEnumParameterIfNotNull("sorting", paging.SortOrder);
 			this.AddParameterIfNotNull("before", encoder.Encode(paging.NewerThan));
 			this.AddParameterIfNotNull("after", encoder.Encode(paging.OlderThan));
 
@@ -122,7 +126,9 @@ namespace Gdax
 
 				uriBuilder.Append(WebUtility.UrlEncode(key));
 				uriBuilder.Append("=");
-				uriBuilder.Append(WebUtility.UrlEncode(value));
+				Debug.WriteLine(value);
+				uriBuilder.Append(value);
+				//uriBuilder.Append(WebUtility.UrlEncode(value));
 			}
 
 			void AppendParameters(IDictionary<String, String> parameters)
