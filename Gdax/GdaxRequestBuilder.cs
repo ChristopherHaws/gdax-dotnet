@@ -11,7 +11,7 @@ namespace Gdax
 {
 	public class GdaxRequestBuilder
 	{
-		public HttpMethod method;
+		private HttpMethod method;
 		private String relativePath;
 		private Dictionary<String, String> queryParameters;
 		private String body;

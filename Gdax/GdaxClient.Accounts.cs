@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Gdax.Models;
-using Gdax.Serialization;
-using Newtonsoft.Json;
 
 namespace Gdax
 {

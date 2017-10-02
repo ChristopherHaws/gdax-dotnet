@@ -78,7 +78,7 @@ namespace Gdax.Models
 		public String BankName { get; set; }
 
 		[JsonProperty("bank_country")]
-		public BankCountry BankCountry { get; set; }
+		public Country BankCountry { get; set; }
 
 		[JsonProperty("reference")]
 		public String Reference { get; set; }
@@ -87,7 +87,7 @@ namespace Gdax.Models
 		public String RoutingNumber { get; set; }
 	}
 
-	public class BankCountry
+	public class Country
 	{
 		[JsonProperty("code")]
 		public String Code { get; set; }

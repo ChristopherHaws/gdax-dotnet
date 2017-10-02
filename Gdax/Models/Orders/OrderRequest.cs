@@ -4,7 +4,7 @@ using Newtonsoft.Json.Converters;
 
 namespace Gdax.Models
 {
-	public class OrderRequest
+	internal class OrderRequest
 	{
 		[JsonProperty("client_oid")]
 		public String Client_Oid { get; set; }

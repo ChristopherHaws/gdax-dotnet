@@ -22,7 +22,5 @@ namespace Gdax
 		public KeyValuePair<String, IEnumerable<String>>[] Headers { get; }
 		public HttpStatusCode StatusCode { get; }
 		public String Content { get; }
-
-		
 	}
 }
