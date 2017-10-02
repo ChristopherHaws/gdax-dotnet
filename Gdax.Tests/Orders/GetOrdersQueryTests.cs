@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Gdax.Models;
 using Shouldly;
 using Xunit;
 
 namespace Gdax.Tests.Orders
 {
-    public class GetOrdersQueryTests
-    {
+	public class GetOrdersQueryTests
+	{
 		[Fact]
 		public async Task GetOrders_ShouldListTheOrders()
 		{
@@ -18,7 +17,7 @@ namespace Gdax.Tests.Orders
 				UseSandbox = true
 			};
 
-			var Orders = await client.GetOrders();
+			var Orders = await client.GetOrders(states: OrderStates.All);
 
 			Orders.ShouldNotBeNull();
 		}
@@ -31,24 +30,24 @@ namespace Gdax.Tests.Orders
 				UseSandbox = true
 			};
 
-			var Orders = await client.GetOrders(paging: new PagingOptions<Int32?>
+			var orders = await client.GetOrders(states: OrderStates.All, paging: new PagingOptions<DateTime?>
 			{
 				Limit = 1
 			});
 
-			var OrdersPage2 = await client.GetOrders(paging: Orders.OlderPage());
-			var OrdersPage1 = await client.GetOrders(paging: OrdersPage2.NewerPage());
+			var ordersPage2 = await client.GetOrders(paging: orders.NextPage());
+			var ordersPage1 = await client.GetOrders(paging: ordersPage2.PreviousPage());
 
-			Orders.ShouldNotBeNull();
-			Orders.Results.ShouldHaveSingleItem();
+			orders.ShouldNotBeNull();
+			orders.Results.ShouldHaveSingleItem();
 
-			OrdersPage2.ShouldNotBeNull();
-			OrdersPage2.Results.ShouldHaveSingleItem();
-			OrdersPage2.Results.ShouldNotContain(x => x.Id == Orders.Results.First().Id);
+			ordersPage2.ShouldNotBeNull();
+			ordersPage2.Results.ShouldHaveSingleItem();
+			ordersPage2.Results.ShouldNotContain(x => x.OrderId == orders.Results.First().OrderId);
 
-			OrdersPage1.ShouldNotBeNull();
-			OrdersPage1.Results.ShouldHaveSingleItem();
-			OrdersPage1.Results.ShouldContain(x => x.Id == Orders.Results.First().Id);
+			ordersPage1.ShouldNotBeNull();
+			ordersPage1.Results.ShouldHaveSingleItem();
+			ordersPage1.Results.ShouldContain(x => x.OrderId == orders.Results.First().OrderId);
 		}
 	}
 }
