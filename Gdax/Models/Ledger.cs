@@ -64,5 +64,4 @@ namespace Gdax.Models
 		[JsonProperty("transfer_type")]
 		public String TransferType { get; set; }
 	}
-
 }

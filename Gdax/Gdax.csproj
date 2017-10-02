@@ -7,6 +7,7 @@
     <Description>A .NET implementation for the GDAX API for exchanging cryptocurrency.</Description>
     <PackageLicenseUrl>https://github.com/ChristopherHaws/gdax-dotnet/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ChristopherHaws/gdax-dotnet</PackageProjectUrl>
+    <PackageIconUrl>https://s26.postimg.org/h0gwktpl5/gdax-icon.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/ChristopherHaws/gdax-dotnet.git</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>GDAX Crypto Currency CoinBase BitCoin Ethereum LiteCoin Exchange</PackageTags>
@@ -21,10 +22,6 @@
     <VersionSuffix>ci-$(Year)$(DayOfYear)$(RevisionForDay)</VersionSuffix>
     <InformationalVersion>$(VersionPrefix)-$(VersionSuffix)</InformationalVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="GdaxClient.Products.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
