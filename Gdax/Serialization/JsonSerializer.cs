@@ -1,20 +1,40 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace Gdax.Serialization
 {
 	internal class JsonSerializer : ISerialzer
 	{
+		private readonly JsonSerializerSettings settings;
+
+		public JsonSerializer()
+		{
+			this.settings = new JsonSerializerSettings
+			{
+				ContractResolver = new CamelCasePropertyNamesContractResolver(),
+				NullValueHandling = NullValueHandling.Ignore,
+				Converters =
+				{
+					new StringEnumConverter
+					{
+						CamelCaseText = true
+					}
+				},
+			};
+		}
+
 		public String Serialize<T>(T value)
 		{
-			return JsonConvert.SerializeObject(value);
+			return JsonConvert.SerializeObject(value, this.settings);
 		}
 
 		public T Deserialize<T>(String value)
 		{
 			try
 			{
-				return JsonConvert.DeserializeObject<T>(value);
+				return JsonConvert.DeserializeObject<T>(value, this.settings);
 			}
 			catch (JsonSerializationException ex)
 			{
@@ -22,7 +42,7 @@ namespace Gdax.Serialization
 
 				try
 				{
-					error = JsonConvert.DeserializeObject<GdaxErrorMessage>(value);
+					error = JsonConvert.DeserializeObject<GdaxErrorMessage>(value, this.settings);
 				}
 				catch (Exception)
 				{
@@ -39,11 +59,11 @@ namespace Gdax.Serialization
 				}
 			}
 		}
-		
-		private class GdaxErrorMessage
-		{
-			[JsonProperty("message")]
-			public String Message { get; set; }
-		}
+	}
+
+	internal class GdaxErrorMessage
+	{
+		[JsonProperty("message")]
+		public String Message { get; set; }
 	}
 }

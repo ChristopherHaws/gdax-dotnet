@@ -1,6 +1,5 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Gdax.Models
 {
@@ -9,10 +8,10 @@ namespace Gdax.Models
 		[JsonProperty("client_oid")]
 		public Guid ClientOrderId { get; set; }
 
-		[JsonProperty("side"), JsonConverter(typeof(StringEnumConverter))]
+		[JsonProperty("side")]
 		public Side Side { get; set; }
 
-		[JsonProperty("type"), JsonConverter(typeof(StringEnumConverter))]
+		[JsonProperty("type")]
 		public OrderType Type { get; set; }
 
 		[JsonProperty("product_id")]
@@ -28,13 +27,12 @@ namespace Gdax.Models
 		public Decimal Funds { get; set; }
 
 		[JsonProperty("stp")]
-		public String SelfTradePrevention { get; set; }
+		public SelfTradePrevention? SelfTradePrevention { get; set; }
 
 		[JsonProperty("time_in_force")]
-		public String TimeInForce { get; set; }
+		public TimeInForce? TimeInForce { get; set; }
 
 		[JsonProperty("cancel_after")]
 		public Decimal CancelAfter { get; set; }
 	}
 }
-

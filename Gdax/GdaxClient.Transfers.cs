@@ -25,7 +25,7 @@ namespace Gdax
 			};
 
 			var request = new GdaxRequestBuilder("/deposits/payment-method", HttpMethod.Post)
-				.AddBody(model)
+				.AddBody(model, this.serialzer)
 				.Build();
 
 			return (await this.GetResponse<BankTransfer>(request).ConfigureAwait(false)).Value;
@@ -41,7 +41,7 @@ namespace Gdax
 			};
 
 			var request = new GdaxRequestBuilder("/withdrawals/payment-method", HttpMethod.Post)
-				.AddBody(model)
+				.AddBody(model, this.serialzer)
 				.Build();
 
 			return (await this.GetResponse<BankTransfer>(request).ConfigureAwait(false)).Value;
@@ -57,7 +57,7 @@ namespace Gdax
 			};
 
 			var request = new GdaxRequestBuilder("/deposits/coinbase-account", HttpMethod.Post)
-				.AddBody(model)
+				.AddBody(model, this.serialzer)
 				.Build();
 
 			return (await this.GetResponse<CoinbaseDeposit>(request).ConfigureAwait(false)).Value;
@@ -73,7 +73,7 @@ namespace Gdax
 			};
 			
 			var request = new GdaxRequestBuilder("/withdrawals/coinbase", HttpMethod.Post)
-				.AddBody(model)
+				.AddBody(model, this.serialzer)
 				.Build();
 
 			return (await this.GetResponse<CoinbaseWithdrawal>(request).ConfigureAwait(false)).Value;
@@ -89,7 +89,7 @@ namespace Gdax
 			};
 
 			var request = new GdaxRequestBuilder("/withdrawals/crypto", HttpMethod.Post)
-				.AddBody(model)
+				.AddBody(model, this.serialzer)
 				.Build();
 
 			return (await this.GetResponse<WalletWithdrawal>(request).ConfigureAwait(false)).Value;

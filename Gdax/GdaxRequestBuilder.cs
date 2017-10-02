@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
-using Newtonsoft.Json;
+using Gdax.Serialization;
 
 namespace Gdax
 {
@@ -91,9 +91,9 @@ namespace Gdax
 		}
 
 
-		public GdaxRequestBuilder AddBody<T>(T value)
+		public GdaxRequestBuilder AddBody<T>(T value, ISerialzer serialzer)
 		{
-			this.body = JsonConvert.SerializeObject(value);
+			this.body = serialzer.Serialize(value);
 
 			return this;
 		}
@@ -148,7 +148,7 @@ namespace Gdax
 				request.RequestBody = this.body;
 			}
 
-			return new GdaxRequest(this.method, uriBuilder.ToString());
+			return request;
 		}
 	}
 }

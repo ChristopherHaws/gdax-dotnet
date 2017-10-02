@@ -42,10 +42,10 @@ namespace Gdax.Models
 		public Decimal Size { get; set; }
 
 		[JsonProperty("time_in_force")]
-		public String TimeInForce { get; set; }
+		public TimeInForce TimeInForce { get; set; }
 
 		[JsonProperty("stp")]
-		public String SelfTradePrevention { get; set; }
+		public SelfTradePrevention SelfTradePrevention { get; set; }
 
 		[JsonProperty("type")]
 		public OrderType Type { get; set; }

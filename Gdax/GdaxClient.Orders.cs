@@ -79,7 +79,7 @@ namespace Gdax
 		public async Task<Order> PlaceOrderAdvanced(OrderRequest order)
 		{
 			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post)
-				.AddBody(order)
+				.AddBody(order, this.serialzer)
 				.Build();
 
 			return (await this.GetResponse<Order>(request).ConfigureAwait(false)).Value;
