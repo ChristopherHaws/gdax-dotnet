@@ -8,77 +8,84 @@ namespace Gdax
 {
 	public partial class GdaxClient
 	{
-		public async Task<Order> SubmitMarketOrder(Side side, String productId, Decimal size)
+		public Task<Order> PlaceMarketOrder(Side side, String productId, Decimal amount)
 		{
 			var model = new OrderRequest
 			{
 				Side = side,
 				ProductId = productId,
 				Type = OrderType.Market,
-				Size = size
+				Size = amount
 			};
-
-			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post)
-				.AddBody(model)
-				.Build();
-
-			return (await this.GetResponse<Order>(request).ConfigureAwait(false)).Value;
+			
+			return this.PlaceOrderAdvanced(model);
 		}
 
-		public async Task<Order> SubmitMarketOrderFiat(Side side, String productId, Decimal funds)
+		public Task<Order> PlaceMarketOrderInQuoteCurrency(Side side, String productId, Decimal amount)
 		{
 			var model = new OrderRequest
 			{
 				Side = side,
 				ProductId = productId,
 				Type = OrderType.Market,
-				Funds = funds
+				Funds = amount
 			};
-
-			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post)
-				.AddBody(model)
-				.Build();
-
-			return (await this.GetResponse<Order>(request).ConfigureAwait(false)).Value;
+			
+			return this.PlaceOrderAdvanced(model);
 		}
 		
-		public async Task<Order> SubmitLimitOrder(Side side, String productId, Decimal size, Decimal price)
+		public Task<Order> PlaceLimitOrder(Side side, String productId, Decimal amount, Decimal limitPrice)
 		{
 			var model = new OrderRequest
 			{
 				Side = side,
 				ProductId = productId,
 				Type = OrderType.Limit,
-				Size = size,
-				Price = price
+				Size = amount,
+				Price = limitPrice
 			};
-
-			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post)
-				.AddBody(model)
-				.Build();
-
-			return (await this.GetResponse<Order>(request).ConfigureAwait(false)).Value;
+			
+			return this.PlaceOrderAdvanced(model);
 		}
-		
-		public async Task<Order> SubmitStopOrderFiat(Side side, String productId, Decimal price, Decimal funds)
+
+		public Task<Order> PlaceStopOrder(Side side, String productId, Decimal price, Decimal amount)
 		{
 			var model = new OrderRequest
 			{
 				Side = side,
 				ProductId = productId,
-				Price = price,
 				Type = OrderType.Stop,
-				Funds = funds
+				Price = price,
+				Size = amount
 			};
 
+			return this.PlaceOrderAdvanced(model);
+		}
+
+		public Task<Order> PlaceStopOrderInQuoteCurrency(Side side, String productId, Decimal price, Decimal amount)
+		{
+			var model = new OrderRequest
+			{
+				Side = side,
+				ProductId = productId,
+				Type = OrderType.Stop,
+				Price = price,
+				Funds = amount
+			};
+
+			return this.PlaceOrderAdvanced(model);
+		}
+
+		public async Task<Order> PlaceOrderAdvanced(OrderRequest order)
+		{
 			var request = new GdaxRequestBuilder("/orders", HttpMethod.Post)
-				.AddBody(model)
+				.AddBody(order)
 				.Build();
 
 			return (await this.GetResponse<Order>(request).ConfigureAwait(false)).Value;
 		}
 
-		public async Task<PagedResults<Order, Int32?>> GetOpenOrders(String productId = null, OrderStates? states = null, PagingOptions<Int32?> paging = null)
+		public async Task<PagedResults<Order, Int32?>> GetOrders(String productId = null, OrderStates? states = null, PagingOptions<Int32?> paging = null)
 		{
 			var request = new GdaxRequestBuilder("/orders")
 				.AddEnumParameterIfNotNull("status", states)

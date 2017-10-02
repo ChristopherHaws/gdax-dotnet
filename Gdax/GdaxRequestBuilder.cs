@@ -70,7 +70,7 @@ namespace Gdax
 
 			foreach (var enumValue in values)
 			{
-				this.queryParameters.Add(key, Enum.GetName(typeof(T), enumValue));
+				this.queryParameters.Add(key, Enum.GetName(typeof(T), enumValue).ToLower());
 			}
 			
 			return this;

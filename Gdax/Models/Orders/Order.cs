@@ -6,7 +6,7 @@ namespace Gdax.Models
 	public class Order
 	{
 		[JsonProperty("id")]
-		public String Id { get; set; }
+		public Guid OrderId { get; set; }
 
 		[JsonProperty("product_id")]
 		public String ProductId { get; set; }
@@ -45,7 +45,7 @@ namespace Gdax.Models
 		public String TimeInForce { get; set; }
 
 		[JsonProperty("stp")]
-		public String Stp { get; set; }
+		public String SelfTradePrevention { get; set; }
 
 		[JsonProperty("type")]
 		public OrderType Type { get; set; }

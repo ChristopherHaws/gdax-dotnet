@@ -4,10 +4,10 @@ using Newtonsoft.Json.Converters;
 
 namespace Gdax.Models
 {
-	internal class OrderRequest
+	public class OrderRequest
 	{
 		[JsonProperty("client_oid")]
-		public String Client_Oid { get; set; }
+		public Guid ClientOrderId { get; set; }
 
 		[JsonProperty("side"), JsonConverter(typeof(StringEnumConverter))]
 		public Side Side { get; set; }
@@ -28,10 +28,10 @@ namespace Gdax.Models
 		public Decimal Funds { get; set; }
 
 		[JsonProperty("stp")]
-		public String Stp { get; set; }
+		public String SelfTradePrevention { get; set; }
 
 		[JsonProperty("time_in_force")]
-		public Decimal TimeInForce { get; set; }
+		public String TimeInForce { get; set; }
 
 		[JsonProperty("cancel_after")]
 		public Decimal CancelAfter { get; set; }

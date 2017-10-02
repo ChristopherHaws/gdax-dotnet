@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 
@@ -13,10 +12,6 @@ namespace Gdax
 			this.Headers = headers.ToArray();
 			this.StatusCode = statusCode;
 			this.Content = content;
-
-			// Show JSON response status in output
-			Debug.WriteLine(this.StatusCode);
-			Debug.WriteLine(this.Content);
 		}
 
 		public KeyValuePair<String, IEnumerable<String>>[] Headers { get; }

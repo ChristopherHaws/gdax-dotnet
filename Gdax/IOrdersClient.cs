@@ -7,15 +7,40 @@ namespace Gdax
 {
 	public interface IOrdersClient
 	{
-		Task<Order> SubmitMarketOrder(Side side, String productId, Decimal size);
+		/// <summary>
+		/// Places a market order in the base currency.
+		/// </summary>
+		/// <param name="side">The side.</param>
+		/// <param name="productId">The product identifier.</param>
+		/// <param name="amount">Indicates the amount of base currency to buy or sell.</param>
+		/// <returns></returns>
+		Task<Order> PlaceMarketOrder(Side side, String productId, Decimal amount);
 
-		Task<Order> SubmitMarketOrderFiat(Side side, String productId, Decimal funds);
+		/// <summary>
+		/// Places a market order in the quote currency.
+		/// </summary>
+		/// <param name="side">The side.</param>
+		/// <param name="productId">The product identifier.</param>
+		/// <param name="amount">Indicates the amount of quote currency to buy or sell.</param>
+		/// <returns></returns>
+		Task<Order> PlaceMarketOrderInQuoteCurrency(Side side, String productId, Decimal amount);
 
-		Task<Order> SubmitLimitOrder(Side side, String productId, Decimal size, Decimal price);
+		Task<Order> PlaceLimitOrder(Side side, String productId, Decimal amount, Decimal limitPrice);
 
-		Task<Order> SubmitStopOrderFiat(Side side, String productId, Decimal price, Decimal funds);
+		Task<Order> PlaceStopOrder(Side side, String productId, Decimal price, Decimal amount);
 
-		Task<PagedResults<Order, Int32?>> GetOpenOrders(String productId = null, OrderStates? states = null, PagingOptions<Int32?> paging = null);
+		Task<Order> PlaceStopOrderInQuoteCurrency(Side side, String productId, Decimal price, Decimal amount);
+
+		Task<Order> PlaceOrderAdvanced(OrderRequest order);
+
+		/// <summary>
+		/// Gets the orders. If no states are provided, only open, pending, and active orders will be returned.
+		/// </summary>
+		/// <param name="productId">Limit returned orders to a specific product.</param>
+		/// <param name="states">Limit returned orders to these statuses.</param>
+		/// <param name="paging">The paging.</param>
+		/// <returns></returns>
+		Task<PagedResults<Order, Int32?>> GetOrders(String productId = null, OrderStates? states = null, PagingOptions<Int32?> paging = null);
 
 		Task<IList<Guid>> CancelAllOrders(String productID = null);
 	}
