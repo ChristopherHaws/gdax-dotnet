@@ -97,6 +97,14 @@ namespace Gdax
 			return new PagedResults<Order, Int32?>(response, CursorEncoders.Int32, paging);
 		}
 
+		public async Task CancelOrder(String orderId)
+		{
+			var request = new GdaxRequestBuilder($"/orders/{orderId}", HttpMethod.Delete)
+				.Build();
+
+			await this.GetResponse(request).ConfigureAwait(false);
+		}
+
 		public async Task<IList<Guid>> CancelAllOrders(String productId = null)
 		{
 			var request = new GdaxRequestBuilder("/orders", HttpMethod.Delete)

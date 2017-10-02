@@ -42,6 +42,8 @@ namespace Gdax
 		/// <returns></returns>
 		Task<PagedResults<Order, Int32?>> GetOrders(String productId = null, OrderStates? states = null, PagingOptions<Int32?> paging = null);
 
+		Task CancelOrder(String orderId);
+
 		Task<IList<Guid>> CancelAllOrders(String productID = null);
 	}
 }
