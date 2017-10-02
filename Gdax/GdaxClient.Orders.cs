@@ -78,7 +78,7 @@ namespace Gdax
 			return (await this.GetResponse<Order>(request).ConfigureAwait(false)).Value;
 		}
 
-		public async Task<PagedResults<Order, Int32?>> ListOpenOrders(String productId = null, OrderStates? states = null, PagingOptions<Int32?> paging = null)
+		public async Task<PagedResults<Order, Int32?>> GetOpenOrders(String productId = null, OrderStates? states = null, PagingOptions<Int32?> paging = null)
 		{
 			var request = new GdaxRequestBuilder("/orders")
 				.AddEnumParameterIfNotNull("status", states)
