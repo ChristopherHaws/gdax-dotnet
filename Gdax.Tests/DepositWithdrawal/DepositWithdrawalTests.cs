@@ -19,12 +19,13 @@ namespace Gdax.Tests.DepositWithdrawal
 		[Fact]
 		public async Task TestAllDepositWithdrawalFunctions()
 		{
+			await GetPaymentsInfo().ConfigureAwait(false);
+
 			await TestDepositBank(100m, paymentIdForWithdrawal, "EUR");
 
 			await TestDepositCoinbase(100m, coinbase_id, "USD");
 
 			await TestWithdrawCoinbase(00m, coinbase_id, "USD");
-
 		}
 
 		public static async Task GetPaymentsInfo()
@@ -58,8 +59,6 @@ namespace Gdax.Tests.DepositWithdrawal
 				Debug.WriteLine("Coinbase ID {0}", c.Id);
 				Debug.WriteLine("Coinbase Balance {0}", c.Balance);
 				Debug.WriteLine("Coinbase Currency {0}", c.Currency);
-				// Debug.WriteLine(c.SepaDepositInformation.BankName);
-				// Debug.WriteLine(c.Wire_deposit_information.Bank_name);
 				Debug.WriteLine("*******************************");
 
 				coinbase_id = new Guid(c.Id.ToString());
