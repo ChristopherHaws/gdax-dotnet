@@ -15,8 +15,8 @@
     <PackageReference Include="Shouldly" Version="3.0.0-beta0003" />
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.2" />
-    <PackageReference Include="xunit" Version="2.3.0-beta5-build3769" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta5-build3769" />
+    <PackageReference Include="xunit" Version="2.3.0-rc2-build3812" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-rc2-build3812" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.0-rc2-build3812" />
   </ItemGroup>
 
 </Project>

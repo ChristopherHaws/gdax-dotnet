@@ -1,0 +1,36 @@
+version: 1.0.0-ci-{build}
+image: Visual Studio 2017
+configuration: Release
+
+pull_requests:
+  do_not_increment_build_number: true
+
+init:
+- ps: |
+    $year = [System.DateTime]::Now.ToString("yy")
+    $dayofyear = [System.DateTime]::Now.DayOfYear.ToString("000")
+    $revision = $env:appveyor_build_number.PadLeft(2, '0')
+    Update-AppveyorBuild -Version "1.0.0-ci-$($year)$($dayofyear)$($revision)"
+
+nuget:
+  disable_publish_on_pr: true
+
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+
+before_build:
+- dotnet restore
+
+build:
+  parallel: true
+  publish_nuget: true
+
+test_script:
+- cmd: dotnet test
+
+artifacts:
+- path: logs
+- path: '**\*.nupkg'
