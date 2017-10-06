@@ -7,7 +7,7 @@ namespace Gdax
 {
 	public partial class GdaxClient
 	{
-		public async Task<IList<HistoricRate>> GetHistoricRates(String productId, DateTime? start = null, DateTime? end = null, Int32? granularity = null)
+		public async Task<IList<HistoricRate>> GetHistoricRates(String productId, DateTime? start = null, DateTime? end = null, MarketPeriod? granularity = null)
 		{
 			Check.NotNullOrWhiteSpace(productId, nameof(productId));
 
