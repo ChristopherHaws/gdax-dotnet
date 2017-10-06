@@ -7,14 +7,14 @@ namespace Gdax
 {
 	public partial class GdaxClient
 	{
-		public async Task<IList<HistoricRate>> GetHistoricRates(String productId, DateTime? start = null, DateTime? end = null, Int32? granularity = null)
+		public async Task<IList<HistoricRate>> GetHistoricRates(String productId, DateTime? start = null, DateTime? end = null, MarketPeriod? granularity = null)
 		{
 			Check.NotNullOrWhiteSpace(productId, nameof(productId));
 
 			var request = new GdaxRequestBuilder($"/products/{productId}/candles")
 				.AddParameterIfNotNull("start", start?.ToString("o"))
 				.AddParameterIfNotNull("end", end?.ToString("o"))
-				.AddParameterIfNotNull("granularity", granularity?.ToString())
+				.AddParameterIfNotNull("granularity", ((Int32)granularity).ToString())
 				.Build();
 
 			var rates = (await this.GetResponse<IList<Decimal[]>>(request).ConfigureAwait(false)).Value;

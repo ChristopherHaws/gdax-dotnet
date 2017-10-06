@@ -14,7 +14,7 @@ namespace Gdax
 
 			return (await this.GetResponse<IList<PaymentMethod>>(request).ConfigureAwait(false)).Value;
 		}
-		
+
 		public async Task<BankTransfer> DepositFromBank(Decimal amount, String currency, Guid paymentID)
 		{
 			var model = new BankTransferRequest

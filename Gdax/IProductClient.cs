@@ -26,7 +26,7 @@ namespace Gdax
 		/// <param name="end">End time in ISO 8601.</param>
 		/// <param name="granularity">Desired timeslice in seconds.</param>
 		/// <returns></returns>
-		Task<IList<HistoricRate>> GetHistoricRates(String productId, DateTime? start = null, DateTime? end = null, Int32? granularity = null);
+		Task<IList<HistoricRate>> GetHistoricRates(String productId, DateTime? start = null, DateTime? end = null, MarketPeriod? granularity = null);
 
 		/// <summary>
 		/// Get a list of open orders for a product. The amount of detail shown can be customized with the level parameter.

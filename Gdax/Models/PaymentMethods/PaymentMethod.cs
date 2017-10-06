@@ -36,10 +36,12 @@ namespace Gdax.Models
 		[JsonProperty("allow_withdraw")]
 		public Boolean CanWithdraw { get; set; }
 
-		[JsonProperty("limits")]
-		public IDictionary<String, PaymentMethodLimit> Limits { get; set; }
+		//[JsonProperty("limits")]
+		//public IDictionary<String, PaymentMethodLimit> Limits { get; set; }
 	}
+}
 
+	/*
 	public class PaymentMethodLimit
 	{
 		//TODO: Create a converter for this that converts it to a TimeSpan
@@ -62,4 +64,4 @@ namespace Gdax.Models
 		[JsonProperty("currency")]
 		public String Currency { get; set; }
 	}
-}
+}*/
