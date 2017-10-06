@@ -19,37 +19,41 @@ namespace Gdax
 
 		public IList<T> Results => this.response.Value;
 		
-		public PagingOptions<TCursor> NewerPage()
+		public PagingOptions<TCursor> PreviousPage()
 		{
 			var before = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-BEFORE", StringComparison.OrdinalIgnoreCase));
 			if (before.Value == null || before.Value.Count() != 1)
 			{
-				throw new GdaxException("Cannot determine newer page.");
+				throw new GdaxException("Cannot determine before page.");
 			}
 
 			return new PagingOptions<TCursor>
 			{
 				Limit = this.paging?.Limit,
+				SortBy = this.paging?.SortBy,
+				SortOrder = this.paging?.SortOrder,
 				NewerThan = this.encoder.Decode(before.Value.First())
 			};
 		}
 
-		public PagingOptions<TCursor> OlderPage()
+		public PagingOptions<TCursor> NextPage()
 		{
 			var after = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-AFTER", StringComparison.OrdinalIgnoreCase));
 			if (after.Value == null || after.Value.Count() != 1)
 			{
-				throw new GdaxException("Cannot determine older page.");
+				throw new GdaxException("Cannot determine after page.");
 			}
 
 			return new PagingOptions<TCursor>
 			{
 				Limit = this.paging?.Limit,
+				SortBy = this.paging?.SortBy,
+				SortOrder = this.paging?.SortOrder,
 				OlderThan = this.encoder.Decode(after.Value.First())
 			};
 		}
 
-		public Boolean HasNewerPage()
+		public Boolean HasPreviousPage()
 		{
 			var before = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-BEFORE", StringComparison.OrdinalIgnoreCase)).Value;
 			if (before == null || before.Count() != 1)
@@ -65,7 +69,7 @@ namespace Gdax
 			return false;
 		}
 
-		public Boolean HasOlderPage()
+		public Boolean HasNextPage()
 		{
 			var after = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-AFTER", StringComparison.OrdinalIgnoreCase)).Value;
 			if (after == null || after.Count() != 1)
@@ -81,18 +85,16 @@ namespace Gdax
 			return false;
 		}
 
-		private Object ToDump()
+		private Object ToDump() => new
 		{
-			return new
-			{
-				HasOlderPage = this.HasOlderPage(),
-				HasNewerPage = this.HasNewerPage(),
-				OlderPageOptions = this.HasOlderPage() ? this.OlderPage() : null,
-				NewerPageOptions = this.HasNewerPage() ? this.NewerPage() : null,
-				OlderHeader = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-AFTER", StringComparison.OrdinalIgnoreCase)).Value?.FirstOrDefault(),
-				NewerHeader = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-BEFORE", StringComparison.OrdinalIgnoreCase)).Value?.FirstOrDefault(),
-				Results = this.Results,
-			};
-		}
+			CurrentPage = this.paging,
+			HasPreviousPage = this.HasPreviousPage(),
+			HasNextPage = this.HasNextPage(),
+			PreviousPage = this.HasPreviousPage() ? this.PreviousPage() : null,
+			NextPage = this.HasNextPage() ? this.NextPage() : null,
+			PreviousHeader = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-BEFORE", StringComparison.OrdinalIgnoreCase)).Value?.FirstOrDefault(),
+			NextHeader = this.response.Headers.FirstOrDefault(x => x.Key.Equals("CB-AFTER", StringComparison.OrdinalIgnoreCase)).Value?.FirstOrDefault(),
+			Results = this.Results,
+		};
 	}
 }

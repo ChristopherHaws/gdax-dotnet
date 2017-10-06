@@ -48,8 +48,8 @@ namespace Gdax.Fills
 				Limit = 1
 			});
 			
-			var fillsPage2 = await client.GetFills(paging: fills.OlderPage());
-			var fillsPage1 = await client.GetFills(paging: fillsPage2.NewerPage());
+			var fillsPage2 = await client.GetFills(paging: fills.NextPage());
+			var fillsPage1 = await client.GetFills(paging: fillsPage2.PreviousPage());
 
 			fills.ShouldNotBeNull();
 			fills.Results.ShouldHaveSingleItem();
