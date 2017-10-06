@@ -46,12 +46,6 @@ namespace Gdax.Tests.Orders
 		{
 			var orders = await client.GetOrders("open").ConfigureAwait(false);
 
-			foreach (var o in orders.Results)
-			{
-				Debug.WriteLine("STATUS {0}", o.Status);
-				Debug.WriteLine("ORDER ID {0}", o.OrderId);
-			}
-
 			if (orders.Results.Count > 0)
 			{
 				var cancelOrder = await client.CancelAllOrders().ConfigureAwait(false);
