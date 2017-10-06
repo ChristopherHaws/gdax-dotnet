@@ -18,10 +18,10 @@
 		Hour = 3600,
 
 		/// <summary>A time interval of 2 hours.</summary>
-		Hour2 = 3600,
+		Hours2 = 3600,
 
 		/// <summary>A time interval of 4 hours.</summary>
-		Hour4 = 14400,
+		Hours4 = 14400,
 
 		/// <summary>A time interval of 6 hours.</summary>
 		Hours6 = 43200,
