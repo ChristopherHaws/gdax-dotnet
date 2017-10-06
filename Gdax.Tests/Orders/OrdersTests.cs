@@ -17,43 +17,16 @@ namespace Gdax.Tests.Orders
 		[Fact]
 		public async Task TestAllOrderFunctions()
 		{
-			await TestMarketOrder(Side.Sell, "ETH-EUR", 0.1m).ConfigureAwait(false);
+			var marketOrder = await client.PlaceMarketOrder(Side.Buy, "BTC-USD", 0.1m).ConfigureAwait(false);
+			marketOrder.ShouldBeNull();
 
-			await TestLimitOrder(Side.Sell, "ETH-EUR", 0.1m, 500m).ConfigureAwait(false);
+			var limitOrder = await client.PlaceLimitOrder(Side.Sell, "BTC-USD", 0.1m, 8000m).ConfigureAwait(false);
+			limitOrder.ShouldNotBeNull();
 
-			await TestStopOrder(Side.Buy, "ETH-EUR", 0.1m, 150m).ConfigureAwait(false);
-
-			await ListOrders().ConfigureAwait(false);
-
-			await DeleteOrders().ConfigureAwait(false);
+			var stopOrder = await client.PlaceStopOrder(Side.Sell, "BTC-USD", 0.1m, 3000m).ConfigureAwait(false);
+			stopOrder.ShouldNotBeNull();
 		}
 
-		public static async Task TestMarketOrder(Side side, String currency, Decimal amount = 0m)
-		{
-			Debug.WriteLine("Sending Order");
-
-			var marketOrder = await client.PlaceMarketOrder(side, currency, amount).ConfigureAwait(false);
-
-			Debug.WriteLine("Test Market");
-		}
-
-		public static async Task TestLimitOrder(Side side, String currency, Decimal size, Decimal price)
-		{
-			Debug.WriteLine("Sending Order");
-
-			var limitOrder = await client.PlaceLimitOrder(side, currency, size, price).ConfigureAwait(false);
-
-			Debug.WriteLine("Test Limit Order");
-		}
-
-		public static async Task TestStopOrder(Side side, String currency, Decimal size, Decimal price)
-		{
-			Debug.WriteLine("Sending Order");
-
-			var limitOrder = await client.PlaceLimitOrder(side, currency, size, price).ConfigureAwait(false);
-
-			Debug.WriteLine("Test Stop Order");
-		}
 
 		[Fact]
 		public static async Task ListOrders()

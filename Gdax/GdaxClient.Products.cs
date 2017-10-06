@@ -14,7 +14,7 @@ namespace Gdax
 			var request = new GdaxRequestBuilder($"/products/{productId}/candles")
 				.AddParameterIfNotNull("start", start?.ToString("o"))
 				.AddParameterIfNotNull("end", end?.ToString("o"))
-				.AddParameterIfNotNull("granularity", granularity?.ToString())
+				.AddParameterIfNotNull("granularity", ((Int32)granularity).ToString())
 				.Build();
 
 			var rates = (await this.GetResponse<IList<Decimal[]>>(request).ConfigureAwait(false)).Value;
