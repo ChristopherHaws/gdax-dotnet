@@ -11,13 +11,28 @@
 		/// <summary>A time interval of 15 minutes.</summary>
 		Minutes15 = 900,
 
+		/// <summary>A time interval of 30 minutes.</summary>
+		Minutes30 = 900,
+
 		/// <summary>A time interval of 1 hour.</summary>
 		Hour = 3600,
 
+		/// <summary>A time interval of 2 hours.</summary>
+		Hour2 = 3600,
+
+		/// <summary>A time interval of 4 hours.</summary>
+		Hour4 = 14400,
+
 		/// <summary>A time interval of 6 hours.</summary>
-		Hours6 = 21600,
+		Hours6 = 43200,
+
+		/// <summary>A time interval of 12 hours.</summary>
+		Hours12 = 21600,
 
 		/// <summary>A time interval of a day.</summary>
-		Day = 86400
-		}
+		Day = 86400,
+
+		/// <summary>A time interval of a week.</summary>
+		Week = 604800
+	}
 }
