@@ -3,7 +3,7 @@
 	public enum MarketPeriod
 		{
 		/// <summary>A time interval of 1 minute.</summary>
-		Minute1 = 60,
+		Minute = 60,
 
 		/// <summary>A time interval of 5 minutes.</summary>
 		Minutes5 = 300,
