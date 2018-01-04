@@ -49,7 +49,7 @@ namespace Gdax
 		{
 			var data = Convert.FromBase64String(this.credentials.Secret);
 			var content = request.Content == null ? null : (await request.Content.ReadAsStringAsync());
-			var prehash = timestamp + request.Method.ToString().ToUpper() + request.RequestUri.PathAndQuery + content;
+			var prehash = timestamp.ToString(CultureInfo.InvariantCulture) + request.Method.ToString().ToUpper() + request.RequestUri.PathAndQuery + content;
 
 			return HashString(prehash, data);
 		}
