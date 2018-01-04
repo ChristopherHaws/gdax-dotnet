@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Gdax.Models
@@ -37,20 +36,43 @@ namespace Gdax.Models
 		public Boolean CanWithdraw { get; set; }
 
 		[JsonProperty("limits")]
-		public IDictionary<String, PaymentMethodLimit> Limits { get; set; }
+		public PaymentMethodLimits Limits { get; set; }
+	}
+
+	public class PaymentMethodLimits
+	{
+		[JsonProperty("name")]
+		public String Name { get; set; }
+
+		[JsonProperty("type")]
+		public String Type { get; set; }
+
+		[JsonProperty("buy")]
+		public PaymentMethodLimit[] BuyLimits { get; set; }
+
+		[JsonProperty("sell")]
+		public PaymentMethodLimit[] SellLimits { get; set; }
+
+		[JsonProperty("deposit")]
+		public PaymentMethodLimit[] DepositLimits { get; set; }
 	}
 
 	public class PaymentMethodLimit
 	{
-		//TODO: Create a converter for this that converts it to a TimeSpan
-		[JsonProperty("period_in_days")]
-		public Boolean PeriodInDays { get; set; }
+		[JsonProperty("label")]
+		public String Label { get; set; }
 
-		[JsonProperty("total")]
-		public Money Total { get; set; }
+		[JsonProperty("description")]
+		public String Description { get; set; }
+
+		[JsonProperty("period_in_days")]
+		public Int32 PeriodInDays { get; set; }
 
 		[JsonProperty("remaining")]
 		public Money Remaining { get; set; }
+
+		[JsonProperty("total")]
+		public Money Total { get; set; }
 
 	}
 
