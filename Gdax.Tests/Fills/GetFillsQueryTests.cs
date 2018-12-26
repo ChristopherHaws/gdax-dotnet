@@ -17,7 +17,7 @@ namespace Gdax.Fills
 				UseSandbox = true
 			};
 
-			var fills = await client.GetFills();
+			var fills = await client.GetFills(productId: "BTC-USD");
 
 			fills.ShouldNotBeNull();
 		}
@@ -38,18 +38,19 @@ namespace Gdax.Fills
 				await client.DepositFromCoinbase(10, btcAccount.Currency, btcAccount.Id);
 			}
 
-			await client.PlaceMarketOrder(Side.Sell, "BTC-USD", 0.01m);
-			await client.PlaceMarketOrder(Side.Sell, "BTC-USD", 0.02m);
-			await client.PlaceMarketOrder(Side.Sell, "BTC-USD", 0.03m);
-			await client.PlaceMarketOrder(Side.Sell, "BTC-USD", 0.04m);
+			var productId = "BTC-USD";
+			await client.PlaceMarketOrder(Side.Sell, productId, 0.01m);
+			await client.PlaceMarketOrder(Side.Sell, productId, 0.02m);
+			await client.PlaceMarketOrder(Side.Sell, productId, 0.03m);
+			await client.PlaceMarketOrder(Side.Sell, productId, 0.04m);
 
-			var fills = await client.GetFills(paging: new PagingOptions<Int32?>
+			var fills = await client.GetFills(productId: productId, paging: new PagingOptions<Int32?>
 			{
 				Limit = 1
 			});
 			
-			var fillsPage2 = await client.GetFills(paging: fills.NextPage());
-			var fillsPage1 = await client.GetFills(paging: fillsPage2.PreviousPage());
+			var fillsPage2 = await client.GetFills(productId: productId, paging: fills.NextPage());
+			var fillsPage1 = await client.GetFills(productId: productId, paging: fillsPage2.PreviousPage());
 
 			fills.ShouldNotBeNull();
 			fills.Results.ShouldHaveSingleItem();
